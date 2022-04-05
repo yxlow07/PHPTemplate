@@ -1,0 +1,34 @@
+RewriteEngine on
+Options +Multiviews
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^(.+)/?$ $1.php
+
+#RewriteRule ^product/([0-9]+)$ viewProduct.php?id=$1 [NC]
+
+#<FilesMatch "\.(jpg|jpeg|png|gif|swf|css|js)$">
+#    Header set Cache-Control "max-age=31536000000, public"
+#</FilesMatch>
+
+# Custom 400 errors
+ErrorDocument 400 /ProjectPapa/errors/400.php
+
+# Custom 401 errors
+ErrorDocument 401 /ProjectPapa/errors/401.php
+
+# Custom 403 errors
+ErrorDocument 403 /ProjectPapa/errors/403.php
+
+# Custom 404 errors
+ErrorDocument 404 /ProjectPapa/errors/404.php
+
+# Custom 500 errors
+ErrorDocument 500 /ProjectPapa/errors/500.php
+
+# Prevent viewing of .htaccess file
+<Files .htaccess>
+order allow,deny
+deny from all
+</Files>
+
+# Prevent directory listings
+Options All -Indexes
