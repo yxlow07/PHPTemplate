@@ -1,0 +1,617 @@
+<!--
+    - [UPDATED] fic rec #1 'alice' by sur southcodes.tumblr.com
+    - modify as you please but please do not touch the credit
+    - any errors? need help? have questions? let me know!
+    southcodes.tumblr.com/ask
+-->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{Title}</title>
+
+    <link rel="shortcut icon" href="{favicon}" />
+    <link rel="alternate" type="application/rss+xml" href="{RSS}" />
+    {block:Description}
+    <meta name="description" content="{MetaDescription}" />
+    {/block:Description}
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://static.tumblr.com/n7gvaew/8gop026qc/normalize.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans:400,600|Montserrat:500"
+      rel="stylesheet"
+    />
+
+    <style type="text/css">
+      ::-webkit-scrollbar-thumb:vertical {
+        background-color: #888;
+        border-right: 4px solid #fff;
+        border-top: 5px solid #fff;
+        border-bottom: 5px solid #fff;
+      }
+
+      ::-webkit-scrollbar {
+        background-color: inherit;
+        width: 5px;
+        height: 0px;
+        border-right: 4px solid #fff;
+        border-top: 5px solid #fff;
+        border-bottom: 5px solid #fff;
+      }
+
+      .tmblr-iframe {
+        margin: 0.7rem;
+        opacity: 0.6;
+        -ms-transform: scale(0.85);
+        /* IE 9 */
+        -webkit-transform: scale(0.85);
+        /* Safari */
+        transform: scale(0.85);
+      }
+
+      .tmblr-iframe:hover {
+        opacity: 0.8;
+      }
+
+      #s-m-t-tooltip {
+        max-width: 300px;
+        margin-top: 25px;
+        margin-left: 15px;
+        z-index: 999999;
+        letter-spacing: 1.3px;
+        text-transform: uppercase;
+        font-size: 10.5px;
+        font-family: calibri;
+        border: solid 1px #ddd;
+        background-color: #fcfcfc;
+        color: #777;
+        padding: 3px 5px 3px 5px;
+        line-height: 12px;
+      }
+
+      body {
+        color: #333;
+        /*   text color  */
+        font-family: "Open Sans", sans-serif;
+        font-size: 13px;
+        overflow-y: scroll;
+      }
+
+      a {
+        color: #aaa;
+        /*   links color  */
+        text-decoration: none;
+      }
+
+      a:hover {
+        color: #000;
+      }
+
+      #container {
+        width: 90vw;
+        max-width: 75rem;
+        margin: 60px auto;
+      }
+
+      .content {
+        /*background: blue;*/
+        width: calc(100% - 6rem - 5px);
+        /*background: blue;*/
+        vertical-align: top;
+        display: inline-block;
+      }
+
+      .filtering {
+        width: 6rem;
+        vertical-align: top;
+        display: inline-block;
+      }
+
+      .box {
+        width: 45%;
+        margin: 0px 0px 7rem 5%;
+        text-transform: lowercase;
+        position: relative;
+      }
+
+      /*      topbar      */
+
+      .topbar {
+        margin: 30px 0 50px;
+        padding-bottom: 30px;
+        border-bottom: 1px dotted #bbb;
+        min-height: 80px;
+      }
+
+      .links {
+        font-style: italic;
+        font-size: 12px;
+      }
+
+      .links a {
+        color: #aaa;
+        /*      topbar links color     */
+        margin: 0 12px;
+      }
+
+      .links a:first-child {
+        margin-left: 0px;
+      }
+
+      .links a:last-child {
+        margin-right: 2rem;
+      }
+
+      .simg {
+        width: 80px;
+        height: 80px;
+        border-radius: 100%;
+        margin-right: 15px;
+        vertical-align: middle;
+      }
+
+      #inside {
+        float: left;
+      }
+
+      .title {
+        text-transform: uppercase;
+        font-family: "Montserrat", sans-serif;
+        font-size: 16px;
+        vertical-align: middle;
+        font-weight: 500;
+        display: inline-block;
+        margin-right: 10px;
+        letter-spacing: 0.6px;
+      }
+
+      .desc {
+        float: right;
+        text-align: right;
+        line-height: 80px;
+        font-size: 12px;
+      }
+
+      .filtert,
+      .filtert1 {
+        text-transform: uppercase;
+        font-family: "Montserrat", sans-serif;
+        font-weight: 500;
+        letter-spacing: 0.8px;
+        font-style: normal;
+      }
+
+      .filtert {
+        margin: 25px 0 15px;
+        font-size: 11px;
+      }
+
+      h1 {
+        font-size: 14px;
+        margin: 0px 0px 10px 0px;
+      }
+
+      .filtering button {
+        font-family: "Open Sans", sans-serif;
+        text-transform: lowercase;
+        font-size: 12px;
+        line-height: 23px;
+        font-style: italic;
+        background: transparent;
+        padding: 0;
+        border: 0;
+        display: block;
+        color: #aaa;
+        margin: 0.1rem 0;
+      }
+
+      .filtering button:focus {
+        outline: 0;
+      }
+
+      .filtert1 {
+        font-size: 14px;
+        margin: 0px 0px 10px 0px;
+      }
+
+      .filtering button:hover {
+        cursor: pointer;
+      }
+
+      /*                        fic boxes                       */
+
+      .fav::before {
+        content: "★";
+        color: #ced3db;
+        /*star color*/
+        font-size: 25px;
+        float: right;
+        margin: -10px 0px 0px 5px;
+      }
+
+      .name {
+        letter-spacing: 0.7px;
+        font-weight: 600;
+        font-size: 15px;
+      }
+
+      .name a {
+        color: #555;
+        /*   fic title color  */
+      }
+
+      button.is-checked {
+        color: #000;
+      }
+
+      .author {
+        margin-top: 10px;
+        text-align: right;
+        font-size: 12px;
+      }
+
+      .author a {
+        font-style: italic;
+      }
+
+      .summary {
+        text-align: justify;
+        margin-top: 15px;
+        padding-top: 15px;
+        border-top: 3px double #ddd;
+        text-transform: none;
+        line-height: 19px;
+      }
+
+      .summary p:first-of-type {
+        margin-top: 0;
+      }
+
+      .details {
+        font-size: 13px;
+        line-height: 23px;
+        margin-top: 10px;
+        padding-top: 10px;
+        border-top: 1px solid #ddd;
+      }
+
+      .info {
+        font-weight: bold;
+        letter-spacing: 0.5px;
+        line-height: 180%;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="container">
+      <div class="links">
+        <!--    links   -->
+        <a href="/">go back</a>; <a href="/ask">inbox</a>;
+        <a href="https://www.tumblr.com/">dashboard</a>
+
+        extra text
+      </div>
+
+      <div class="topbar">
+        <div id="inside">
+          <a href="/"><img class="simg" src="IMAGE URL" /></a>
+
+          <div class="title">HEY, STRANGER</div>
+        </div>
+
+        <div class="desc">description</div>
+        <div style="clear: both"></div>
+      </div>
+
+      <!--
+
+PART 1: HOW TO CUSTOMIZE FILTERS:
+
+1) copy the group template and paste it right under     <div class="filtering">   :
+
+    <div class="button-group" data-filter-group="UNIQUE NAME HERE">
+    <div class="filtert">FILTER TITLE</div>
+
+        <button class="button is-checked" data-filter="">∙ ALL OPTIONS</button>
+        <button class="button" data-filter=".filterone">∙ filter one</button>
+        <button class="button" data-filter=".filtertwo">∙ filter two</button>
+    </div>
+
+2) change the 'UNIQUE NAME HERE' for whatever you want. only letters and no spaces (if you add more groups always choose different names). DO NOT delete the dot at the start of the word or the filters wont work
+
+3) change the 'FILTER TITLE' and 'ALL OPTIONS' for whatever you want them to say
+
+4) change the FILTER TITLE for the name of the filter you want, then change the 'UNIQUE FILTER NAME' for a single word (no spaces) with a dot which you will use to link each fic to each filter. repeat this step and copy paste for multiple options
+
+each filter group should look something like this:
+
+    <div class="button-group" data-filter-group="colors">
+        <span class="filter1">filter by color</span>
+    
+        <button class="button is-checked" data-filter="">all colors</button>
+        <button class="button" data-filter=".red">red hair</button>
+        <button class="button" data-filter=".blue">blue hair</button>
+        <button class="button" data-filter=".green">green hair</button>
+    </div>
+
+
+-->
+
+      <!--filters start-->
+
+      <div class="filtering">
+        <div class="button-group" data-filter-group="a">
+          <div class="filtert">filters</div>
+
+          <button class="button is-checked" data-filter="">
+            ∙ all categories
+          </button>
+          <button class="button" data-filter=".fav">∙ favorites</button>
+        </div>
+
+        <div class="button-group" data-filter-group="b">
+          <div class="filtert">Filter title</div>
+
+          <button class="button is-checked" data-filter="">
+            ∙ all options
+          </button>
+          <button class="button" data-filter=".filterone">∙ filter one</button>
+          <button class="button" data-filter=".filtertwo">∙ filter two</button>
+        </div>
+
+        <div class="button-group" data-filter-group="c">
+          <div class="filtert">Filter title</div>
+
+          <button class="button is-checked" data-filter="">
+            ∙ all options
+          </button>
+          <button class="button" data-filter=".filterone">∙ filter one</button>
+          <button class="button" data-filter=".filtertwo">∙ filter two</button>
+        </div>
+      </div>
+      <!--filters end-->
+
+      <!--        START BOXES         -->
+
+      <div class="content">
+        <!-- BOXES TEMPLATE
+
+
+<div class="box">
+    <div class="name">
+        <a href=""></a>
+    </div>
+    
+    <div class="author"> by
+        <a href=""></a>
+    </div>
+    
+    <div class="summary">
+        <p></p>
+    </div>
+    
+    <div class="details">
+        <span class="info">word count:</span> <br>
+        <span class="info">au:</span> <br>
+        <span class="info">au:</span> 
+    </div>
+</div>
+
+
+-->
+
+        <!-- fic start -->
+        <div class="box filterone filtertwo">
+          <div class="name">
+            <a href="LINK URL">FIC NAME</a>
+          </div>
+
+          <div class="author">
+            by
+            <a href="LINK URL">AUTHOR</a>
+          </div>
+
+          <div class="summary">
+            <p>Summary</p>
+            <p>Please wrap each paragraph in p tags like this</p>
+          </div>
+
+          <div class="details">
+            <span class="info">word count:</span> number<br />
+            <span class="info">info:</span> or whatever you want <br />
+            <span class="info">more info:</span> lalalala
+          </div>
+        </div>
+        <!-- fic end -->
+
+        <!-- fic start -->
+        <div class="box filterone filtertwo">
+          <div class="name">
+            <a href="LINK URL">FIC NAME</a>
+          </div>
+
+          <div class="author">
+            by
+            <a href="LINK URL">AUTHOR</a>
+          </div>
+
+          <div class="summary">
+            <p>Summary</p>
+            <p>Please wrap each paragraph in p tags like this</p>
+          </div>
+
+          <div class="details">
+            <span class="info">word count:</span> number<br />
+            <span class="info">info:</span> or whatever you want <br />
+            <span class="info">more info:</span> lalalala
+          </div>
+        </div>
+        <!-- fic end -->
+
+        <!-- fic start -->
+        <div class="box fav filtertwo">
+          <div class="name">
+            <a href="LINK URL">FIC NAME</a>
+          </div>
+
+          <div class="author">
+            by
+            <a href="LINK URL">AUTHOR</a>
+          </div>
+
+          <div class="summary">
+            <p>Summary</p>
+            <p>Please wrap each paragraph in p tags like this</p>
+          </div>
+
+          <div class="details">
+            <span class="info">word count:</span> number<br />
+            <span class="info">info:</span> or whatever you want <br />
+            <span class="info">more info:</span> lalalala
+          </div>
+        </div>
+        <!-- fic end -->
+
+        <!-- fic start -->
+        <div class="box fav filterone">
+          <div class="name">
+            <a href="LINK URL">FIC NAME</a>
+          </div>
+
+          <div class="author">
+            by
+            <a href="LINK URL">AUTHOR</a>
+          </div>
+
+          <div class="summary">
+            <p>Summary</p>
+            <p>Please wrap each paragraph in p tags like this</p>
+          </div>
+
+          <div class="details">
+            <span class="info">word count:</span> number<br />
+            <span class="info">info:</span> or whatever you want <br />
+            <span class="info">more info:</span> lalalala
+          </div>
+        </div>
+        <!-- fic end -->
+
+        <!-- fic start -->
+        <div class="box filterone filtertwo">
+          <div class="name">
+            <a href="LINK URL">FIC NAME</a>
+          </div>
+
+          <div class="author">
+            by
+            <a href="LINK URL">AUTHOR</a>
+          </div>
+
+          <div class="summary">
+            <p>Summary</p>
+            <p>Please wrap each paragraph in p tags like this</p>
+          </div>
+
+          <div class="details">
+            <span class="info">word count:</span> number<br />
+            <span class="info">info:</span> or whatever you want <br />
+            <span class="info">more info:</span> lalalala
+          </div>
+        </div>
+        <!-- fic end -->
+      </div>
+      <!--content end-->
+      <div
+        style="
+          position: fixed;
+          bottom: 15px;
+          right: 10px;
+          font-size: 14.5px;
+          line-height: 14px;
+          height: 14px;
+          width: 14px;
+          padding: 4px;
+        "
+      >
+        <a
+          href="https://southcodes.tumblr.com"
+          title="southcodes"
+          style="color: #666"
+          >sc</a
+        >
+      </div>
+
+      <div
+        style="
+          position: fixed;
+          bottom: 15px;
+          left: 15px;
+          font-size: 10px;
+          line-height: 100%;
+        "
+      ></div>
+    </div>
+    <!--container-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://static.tumblr.com/iuw14ew/VSQma1786/jquery.style-my-tooltips.js"></script>
+    <script src="https://unpkg.com/isotope-layout@3.0.4/dist/isotope.pkgd.min.js"></script>
+    <script>
+      (function ($) {
+        $(document).ready(function () {
+          $("a[title]").style_my_tooltips({
+            tip_follows_cursor: true,
+            tip_delay_time: 30,
+            tip_fade_speed: 300,
+            attribute: "title",
+          });
+        });
+      })(jQuery);
+
+      $(document).ready(function () {
+        // init Isotope
+        var $grid = $(".content").isotope({
+          itemSelector: ".box",
+          layoutMode: "masonry",
+        });
+        // store filter for each group
+        var filters = {};
+        $(".filtering").on("click", ".button", function () {
+          var $this = $(this);
+          // get group key
+          var $buttonGroup = $this.parents(".button-group");
+          var filterGroup = $buttonGroup.attr("data-filter-group");
+          // set filter for group
+          filters[filterGroup] = $this.attr("data-filter");
+          // combine filters
+          var filterValue = concatValues(filters);
+          // set filter for Isotope
+          $grid.isotope({
+            filter: filterValue,
+          });
+        });
+        // change is-checked class on buttons
+        $(".button-group").each(function (i, buttonGroup) {
+          var $buttonGroup = $(buttonGroup);
+          $buttonGroup.on("click", "button", function () {
+            $buttonGroup.find(".is-checked").removeClass("is-checked");
+            $(this).addClass("is-checked");
+          });
+        });
+      });
+      // flatten object by concatting values
+      function concatValues(obj) {
+        var value = "";
+        for (var prop in obj) {
+          value += obj[prop];
+        }
+        return value;
+      }
+    </script>
+  </body>
+</html>
