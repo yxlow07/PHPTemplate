@@ -9,7 +9,7 @@ class Verification
      * Array to match cases <br/>
      * Available flags: 0->isset and not empty, email, password, length, 1->length <= 256
      * </p>
-     * @return bool True if passed all tests false if one fails
+     * @return array True if passed all tests false if one fails
      */
     public static function validate($contents, $attr = []) : array
     {
