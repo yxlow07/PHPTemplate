@@ -1,9 +1,19 @@
 <?php
 $short_opt = "p::";
-$long_opt = [];
+$long_opt = ["port::"];
+$port = 4000;
 
 if (PHP_SAPI == "cli") {
+    $get_options = getopt($short_opt, $long_opt);
 
+    foreach ($get_options as $get_option => $value) {
+        if ($get_option == "p") {
+            $port = $value;
+        }
+    }
+
+    $command = "php -S localhost:$port";
+    shell_exec($command);
 } else {
     // TODO: Add options for web based runner
     echo "Feature in development - Web runner";

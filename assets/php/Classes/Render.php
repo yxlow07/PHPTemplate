@@ -4,12 +4,17 @@ namespace app\Router;
 
 use JetBrains\PhpStorm\ArrayShape;
 
-class RenderingUtility
+class Render
 {
     public array $static_file_types = ["js", "css", "html", "json"];
     public array $image_types = ["png", "jpg", "jpeg"];
 
-    private function throwError(int $statusCode = 500) :string
+    public function __construct(
+        public string $root_dir = "",
+        public string $home = "http://localhost/"
+    ){}
+
+    public function throwError(int $statusCode = 500) :string
     {
         $err_dir = $this->root_dir . "errors\\";
         $file_contents = file_get_contents($err_dir . "$statusCode.php") ?? false;
@@ -22,7 +27,7 @@ class RenderingUtility
         }
         return str_replace("{home}", $this->home, $file_contents);
     }
-    private function returnStaticFiles(string $uri, string $type, string $ext) : void
+    public function returnStaticFiles(string $uri, string $type, string $ext) : void
     {
         if ($type == "cnt") {
             $this->setHeader($ext);
@@ -38,15 +43,15 @@ class RenderingUtility
     {
         if (file_exists($path_to_image)) {
             $image = fopen($path_to_image, "r");
-            header("Content-Type: image/$type");
-            header("Content-Length: " . filesize($path_to_image));
+//            header("Content-Type: image/$type");
+//            header("Content-Length: " . filesize($path_to_image));
             fpassthru($image);
         } else {
             echo "This image does not exist sorry";
         }
     }
     #[ArrayShape(["check" => "bool", "type" => "string", "ext" => "string"])]
-    private function checkIsStatic($uri) : array
+    public function checkIsStatic($uri) : array
     {
         $_uri = explode(".", $uri);
         $ext = end($_uri);

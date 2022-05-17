@@ -1,19 +1,25 @@
-@import url("https://fonts.googleapis.com/css2?family=Creepster&display=swap");
+/*@import url("https://fonts.googleapis.com/css2?family=Creepster&display=swap");*/
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap');
 
 body {
-    background-color: rgba(124, 193, 255, 0.75);
+    /*background-color: rgba(123, 192, 253, 0.75);*/
+    background-color: black;
+    background-image: url("../../errors/project papa.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
 }
 
 .errorTitle {
-    font-family: 'Creepster', cursive;
+    font-family: 'EB Garamond', cursive;
     font-weight: bolder;
     font-size: 500%;
     text-align: center;
-    color: rgb(0, 146, 183);
+    /*color: rgb(0, 146, 183);*/
 }
 
 .container {
-    background-color: azure;
+    color: #0e0e0e;
 }
 
 .content {
@@ -22,7 +28,7 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
-    color: blueviolet;
+    /*color: blueviolet;*/
 }
 
 a {
