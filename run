@@ -1,0 +1,10 @@
+<?php
+$short_opt = "p::";
+$long_opt = [];
+
+if (PHP_SAPI == "cli") {
+
+} else {
+    // TODO: Add options for web based runner
+    echo "Feature in development - Web runner";
+}

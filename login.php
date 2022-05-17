@@ -1,4 +1,4 @@
-<?php include_once "assets/php/config.php"?>
+<?php include_once "assets/php/config.php" ?>
 <!doctype html>
 <html lang="en">
 <head>
