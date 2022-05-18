@@ -17,12 +17,12 @@ class Router
         $this->render = new Render($this->root_dir, $this->home);
     }
 
-    public function GET(string $route, callable|object $fn, array $options = []): void
+    public function GET(string $route, callable|object|string $fn, array $options = []): void
     {
         $this->handling[$route] = ["fn" => $fn, "methods" => "GET", "options" => $options];
     }
 
-    public function ALL(string $route, callable|object $fn, array $options = []): void
+    public function ALL(string $route, callable|object|string $fn, array $options = []): void
     {
         $this->handling[] = ["route" => $route, "fn" => $fn, "methods" => "GET|POST|PUT|DELETE|OPTIONS|PATCH|HEAD", "options" => $options];
 
@@ -58,13 +58,7 @@ class Router
     {
         $data = $this->getData();
         $vars = $this->processQueryString($data['vars']);
-        $isStatic = $this->render->checkIsStatic($data["uri"]);
-
-        if ($isStatic["check"]) {
-            $this->render->returnStaticFiles($data["uri"], $isStatic["type"], $isStatic["ext"] ?? "");
-        } else {
-            $this->handle($data["uri"]);
-        }
+        $this->handle($data["uri"]);
     }
 
     private function handle(string $uri): void
