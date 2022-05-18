@@ -16,4 +16,9 @@ PHP Template with advanced features such as user-management system, login logout
 - [ ] Other features to be added
 
 ## In depth view of the mechanics
-[]()
+[Here](https://github.com/yxlow07/PHPTemplate/blob/main/references/Start.md)
+everything is explained from the start to the end. This includes all the mechanics and how everything functions.
+
+## Credits
+[<img height="50" src="https://avatars.githubusercontent.com/u/67564709?v=4" title="yxlow07&#39;s avatar" width="50"/>](https://github.com/yxlow07/)
+[<p>yxlow07</p>](https://github.com/yxlow07/)
