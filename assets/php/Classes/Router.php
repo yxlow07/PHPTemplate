@@ -32,7 +32,7 @@ class Router
     protected function getData(): array
     {
         return [
-            "uri" => str_replace($this->route_excl, "", $_SERVER['REQUEST_URI'] ?? "/"),
+            "uri" => str_replace($this->route_excl, "", rawurldecode($_SERVER['REQUEST_URI']) ?? "/"),
             "method" => $_SERVER['REQUEST_METHOD'] ?? "GET",
             "vars" => $_SERVER['QUERY_STRING'] ?? ""
         ];
@@ -66,9 +66,13 @@ class Router
         if ($this->match($uri)) {
             // TODO: the options idk how do rn
             $route = $this->handling[$uri];
-            call_user_func_array($route["fn"], $route["options"]);
-        } else {
-            echo $this->render->throwError(404);
+            if (is_callable($route["fn"])) {
+                call_user_func_array($route["fn"], $route["options"]);
+            } else {
+                $this->render->parseFile($route["fn"], $route["options"]);
+            }
+            return;
         }
+        echo $this->render->throwError(404);
     }
 }

@@ -1,2 +1,2 @@
 <a href="./register">Register</a>
-<a href="./login">Login</a>
+<a href="{home}/login">Login</a>

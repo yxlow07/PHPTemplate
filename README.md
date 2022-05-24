@@ -1,4 +1,4 @@
-PHP Template for Complex Systems Simplified
+# PHP Template for Complex Systems Simplified
 ****
 ## About:
 PHP Template with advanced features such as user-management system, login logout and much more. What's more its packed with easy accessed and customisable functions and classes so don't ever start it from scratch. 
@@ -14,6 +14,11 @@ PHP Template with advanced features such as user-management system, login logout
 - [ ] Run file for CLI use
 - [ ] Database handling
 - [ ] Other features to be added
+
+## Features on suspension (Lack of knowledge / Quality of Life improvements)
+- [ ] Server base path dynamically implemented (Requires more testing)
+- [ ] Enable set 404 and from a class/method (Reflection Builtin class)
+- [ ] ENV file autoloads (Eg: header and footer files)
 
 ## In depth view of the mechanics
 [Here](https://github.com/yxlow07/PHPTemplate/blob/main/references/Start.md)
