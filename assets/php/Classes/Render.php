@@ -70,7 +70,7 @@ class Render
 
     private function replace(array $files) : string
     {
-        ob_start(array($this, "callback"));
+        ob_start([$this, "callback"]);
         foreach ($files as $file) {
             $check_exists = $this->checkFileExists($file, true);
             if ($check_exists["exists"]) {

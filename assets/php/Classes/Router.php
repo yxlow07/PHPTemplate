@@ -19,13 +19,17 @@ class Router
 
     public function GET(string $route, callable|object|string $fn, array $options = []): void
     {
-        $this->handling[$route] = ["fn" => $fn, "methods" => "GET", "options" => $options];
+        $this->handling[$route]["GET"] = ["fn" => $fn, "options" => $options];
+    }
+    public function POST(string $route, callable|object|string $fn, array $options = []): void
+    {
+        $this->handling[$route]["POST"] = ["fn" => $fn, "options" => $options];
     }
 
     public function ALL(string $route, callable|object|string $fn, array $options = []): void
     {
         $this->handling[] = ["route" => $route, "fn" => $fn, "methods" => "GET|POST|PUT|DELETE|OPTIONS|PATCH|HEAD", "options" => $options];
-
+        // TODO: fix the methods argument
     }
 
     #[ArrayShape(["uri" => "mixed|string", "method" => "mixed|string", "vars" => "mixed|string"])]
@@ -49,23 +53,24 @@ class Router
         return $returns;
     }
 
-    private function match($uri) : bool|int
+    private function match($uri, $method) : bool|int
     {
-        return array_key_exists($uri, $this->handling);
+        return array_key_exists($uri, $this->handling) && isset($this->handling[$uri][$method]);
     }
 
     public function run(): void
     {
         $data = $this->getData();
         $vars = $this->processQueryString($data['vars']);
-        $this->handle($data["uri"]);
+        $this->handle($data["uri"], $data["method"]);
     }
 
-    private function handle(string $uri): void
+    private function handle(string $uri, string $method): void
     {
-        if ($this->match($uri)) {
+        $match = $this->match($uri, $method);
+        if ($match) {
             // TODO: the options idk how do rn
-            $route = $this->handling[$uri];
+            $route = $this->handling[$uri][$method];
             if (is_callable($route["fn"])) {
                 call_user_func_array($route["fn"], $route["options"]);
             } else {
