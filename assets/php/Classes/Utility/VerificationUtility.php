@@ -3,17 +3,9 @@ namespace Verification;
 
 class VerificationUtility
 {
-    protected function checkEmailReturnedJson($jsonObj): bool
+    protected function issetAndNotEmpty(mixed $contents): bool
     {
-        return ($jsonObj->disposable == false && $jsonObj->format_valid == true && $jsonObj->smtp_check == true && $jsonObj->mx_found == true);
-    }
-
-    protected function issetAndNotEmpty($contents): bool
-    {
-        if (isset($contents) && !empty($contents)) {
-            return true;
-        }
-        return false;
+        return isset($contents) && !empty($contents);
     }
 
     /**
@@ -28,16 +20,18 @@ class VerificationUtility
         return strtolower(gettype($contents));
     }
 
-    protected function returnTrueIfBlankArray($returns) : array|bool
+    protected function returnTrueIfBlankArray(array $returns) : array|bool
     {
         return $returns == [] ? true : $returns;
     }
 
-    protected function checkReturns($arr): bool
+    protected function checkReturns(array $arr): bool
     {
-        if (in_array(false, $arr)) {
-            return false;
-        }
-        return true;
+        return !in_array(false, $arr);
+    }
+
+    protected function checkEmailReturnedJson(object $jsonObj): bool
+    {
+        return !$jsonObj->is_disposable && $jsonObj->syntax_valid;
     }
 }

@@ -14,66 +14,20 @@ class Verification extends VerificationUtility
      * @param bool $autoReturnMsg
      * @return array|bool True if passed all tests false if one fails
      */
-    public function validate(mixed $contents, string $name, array $attr = [], bool $autoReturnMsg = true) : array|bool
+    public function validate(mixed $contents, string $name, array $attr, bool $autoReturnMsg = true) : array|bool
     {
-        $returns = [];
-        $special = [];
+        $returns = []; $errMsgAttr = [];
         foreach ($attr as $item) {
             if (is_array($item)) {
                 $returned = $this->arrayValidation($item, $contents);
-                $special[$returned[0]] = $returned[2];
+                var_dump($returned);
+                $errMsgAttr[$returned[0]] = $returned[2];
             } else {
-                $returned = $this->staticValidation($item, $contents);
+                $returned = [$item, $this->staticValidation($item, $contents)];
             }
             $returns[$returned[0]] = $returned[1];
         }
-        return $autoReturnMsg ? $this->returnErrorMessage($returns, $name, $special) : $returns;
-    }
-
-    private function staticValidation($item, $contents): array
-    {
-        return match ( strtolower($item) ) {
-            "notempty" => ["notEmpty", $this->issetAndNotEmpty($contents) ?? false],
-            "email" => ["email", $this->checkEmail($contents) ?? false],
-            default => ["undefined", false],
-        };
-    }
-
-    private function arrayValidation($item, $contents): array
-    {
-        $length_attr = [$item[1] ?? 0, $item[2] ?? 256];
-        return match ( strtolower($item[0]) ) {
-            "length" => ["length", $this->checkLength($contents, $length_attr[0], $length_attr[1]) ?? false, $length_attr],
-            "match" => ["match", $this->checkMatch($contents, $item[2] ?? false) ?? false, $item[1] ?? "undefined"],
-            default => ["undefined", false],
-        };
-    }
-
-    public function checkLength($contents, $min = 0, $max = 256): bool
-    {
-        if (VerificationUtility::issetAndNotEmpty($contents)){
-            $contentType = VerificationUtility::checkType($contents);
-            if ($contentType == "string" || $contentType == "integer" || $contentType == "double") {
-                return (strlen($contents) <= $max && strlen($contents) > $min);
-            } elseif ($contentType == "array") {
-                return (sizeof($contents) <= $max && sizeof($contents) > $min);
-            }
-            return false;
-        }
-        return false;
-    }
-
-    // TODO: revert back to curl request on launch
-    private function checkEmail($email): bool
-    {
-        // $ch = curl_init(); // Initialize cURL.
-        // curl_setopt($ch, CURLOPT_URL, "http://apilayer.net/api/check?access_key=8838e8038dbaad86d9431d3f362ff403&email=$email&smtp=1&format=1");
-        // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // Set CURLOPT_RETURNTRANSFER so that the content is returned as a variable.
-        // curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true); // Set CURLOPT_FOLLOWLOCATION to true to follow redirects.
-        // $data = curl_exec($ch); // Execute the request.
-        // curl_close($ch); // Close the cURL handle.
-        $data = json_decode('{"email":"support@apilayer.com","did_you_mean":"","user":"support","domain":"apilayer.net","format_valid":true,"mx_found":true,"smtp_check":true,"catch_all":false,"role":true,"disposable":false,"free":false,"score":0.8}');
-        return VerificationUtility::checkEmailReturnedJson($data);
+        return $autoReturnMsg ? $this->returnErrMsg($returns, $name, $errMsgAttr) : $returns;
     }
 
     /**
@@ -83,10 +37,9 @@ class Verification extends VerificationUtility
      * @param array $attr <p>Example: ["length" => "256"]</p>
      * @return array|bool
      */
-    public function returnErrorMessage(array $arr, string $name, array $attr = []): array|bool
+    public function returnErrMsg(array $arr, string $name, array $attr = []): array|bool
     {
         $returns = []; // Stored messages needed to be returned
-
         foreach ($arr as $item => $value) {
             if (!$value) {
                 switch ($item) {
@@ -109,8 +62,70 @@ class Verification extends VerificationUtility
         return $this->returnTrueIfBlankArray($returns);
     }
 
-    private function checkMatch($contents, string|bool $param): bool
+    private function staticValidation(string $item, mixed $contents): bool
     {
-        return $contents == $param;
+        return match(strtolower($item)){
+            "notempty" => $this->issetAndNotEmpty($contents) ?? false,
+            "email" => $this->checkEmail($contents) ?? false,
+            default => false,
+        };
+    }
+
+    private function arrayValidation(array $item, mixed $contents): array
+    {
+        $length_attr = [$item[1] ?? 0, $item[2] ?? 256];
+        return match ( strtolower($item[0]) ) {
+            "length" => ["length", $this->checkLength($contents, $length_attr[0], $length_attr[1]), $length_attr],
+            "match" => ["match", $this->checkMatch($contents, $item[2] ?? ""), $item[1] ?? "undefined"],
+            default => ["undefined", false],
+        };
+    }
+
+    private function checkLength(mixed $contents, int $min = 0, int $max = 256): bool
+    {
+        if ($this->issetAndNotEmpty($contents)){
+            $contentType = $this->checkType($contents);
+            if ($contentType == "string" || $contentType == "integer" || $contentType == "double") {
+                return (strlen($contents) <= $max && strlen($contents) > $min);
+            } elseif ($contentType == "array") {
+                return (sizeof($contents) <= $max && sizeof($contents) > $min);
+            }
+            return false;
+        }
+        return false;
+    }
+
+    // TODO: revert back to curl request on launch
+    private function checkEmail(string $email): bool
+    {
+//        $email_checked_data = $this->emailAPIReturn($email);
+//        $data = json_decode($email_checked_data);
+//        return $this->checkEmailReturnedJson($data);
+        return true;
+    }
+
+    private function checkMatch(mixed $contents, mixed $cntTwo, bool $strict = false): bool
+    {
+        return $strict ? $contents === $cntTwo : $contents == $cntTwo;
+    }
+
+    private function emailAPIReturn(string $email) :string
+    {
+        $curl = curl_init();
+        curl_setopt_array($curl, [
+            CURLOPT_URL => "https://api.apilayer.com/email_verification/$email",
+            CURLOPT_HTTPHEADER => ["Content-Type: text/plain", "apikey: mLiXeRQXiVUKsc1O0XgLsDZcFXnDVSDf"],
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "GET"
+        ]);
+        $response = curl_exec($curl);
+        curl_close($curl);
+
+        return $response;
     }
 }
