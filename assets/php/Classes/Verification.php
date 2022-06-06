@@ -20,7 +20,6 @@ class Verification extends VerificationUtility
         foreach ($attr as $item) {
             if (is_array($item)) {
                 $returned = $this->arrayValidation($item, $contents);
-                var_dump($returned);
                 $errMsgAttr[$returned[0]] = $returned[2];
             } else {
                 $returned = [$item, $this->staticValidation($item, $contents)];
@@ -86,9 +85,9 @@ class Verification extends VerificationUtility
         if ($this->issetAndNotEmpty($contents)){
             $contentType = $this->checkType($contents);
             if ($contentType == "string" || $contentType == "integer" || $contentType == "double") {
-                return (strlen($contents) <= $max && strlen($contents) > $min);
+                return (strlen($contents) <= $max && strlen($contents) >= $min);
             } elseif ($contentType == "array") {
-                return (sizeof($contents) <= $max && sizeof($contents) > $min);
+                return (sizeof($contents) <= $max && sizeof($contents) >= $min);
             }
             return false;
         }

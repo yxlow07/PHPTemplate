@@ -81,9 +81,9 @@ class Render
         return "";
     }
 
-    public function callback($buffer = ''): array|string
+    private function callback($buffer = ''): array|string
     {
         // TODO: do this dynamically
-        return str_replace("{home}", $this->home, $buffer);
+        return str_replace(["{home}"], $this->home, $buffer);
     }
 }

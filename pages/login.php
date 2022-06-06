@@ -9,7 +9,7 @@
     <title>Login</title>
 </head>
 <body>
-    <form action="<?=htmlspecialchars($_SERVER['PHP_SELF'])?>" method="post">
+    <form action="login" method="post">
         <label>Email / Username: </label> <input type="email" name="email" maxlength="256">
         <label>Password: </label> <input type="password" name="password">
         <button>Login</button>
