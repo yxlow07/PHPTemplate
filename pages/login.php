@@ -10,8 +10,9 @@
 </head>
 <body>
     <form action="login" method="post">
-        <label>Email / Username: </label> <input type="email" name="email" maxlength="256">
-        <label>Password: </label> <input type="password" name="password">
+        <label>Email / Username: </label> <input type="text" name="e_u" maxlength="256">
+        <label>Password: </label> <input type="password" name="pwd">
+        <input type="hidden" name="login">
         <button>Login</button>
     </form>
 </body>
