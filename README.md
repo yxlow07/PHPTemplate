@@ -19,6 +19,10 @@ PHP Template with advanced features such as user-management system, login logout
 - [ ] Server base path dynamically implemented (Requires more testing)
 - [ ] Enable set 404 and from a class/method (Reflection Builtin class)
 - [ ] ENV file autoloads (Eg: header and footer files)
+- [ ] Schema checking for DB data
+- [ ] Different support for different databases
+- [ ] Custom Exception classes
+- [ ] Session recognising and tracking
 
 ## In depth view of the mechanics
 [Here](https://github.com/yxlow07/PHPTemplate/blob/main/references/Start.md)

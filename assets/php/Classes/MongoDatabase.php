@@ -1,26 +1,51 @@
 <?php
-
 namespace auth;
-use \MongoDB as md;
+
+use \MongoDB\Client;
+use \MongoDB\Collection;
+
 include_once dirname(__DIR__) . "/config.php";
 
-class Database
+class MongoDatabase
 {
-    public function __construct(string $db, string $collection_name){
-        $collection = (new md\Client)->$db->$collection_name;
-        $this->run($collection);
+    private Client $client;
+    private Collection $collection;
+    protected array $defaultDB = ["admin", "config", "local"];
+
+    public function __construct(
+        private readonly string $db_name,
+        private readonly string $collection_name
+    ){
+        $this->client = new Client;
+        $this->collection = $this->client->{$this->db_name}->{$this->collection_name};
     }
 
-    private function run($collection): void
+    public function insert(array $data) : string
     {
-        $insertOneResult = $collection->insertOne([
-            'username' => 'admin',
-            'email' => 'admin@example.com',
-            'name' => 'Admin User',
-        ]);
+        if ($this->validate()) {
+            $res = $this->collection->insertOne($data);
+            return $res->isAcknowledged() ? (string) $res->getInsertedId(): "Database insert failed";
+        }
+        return "Database failed";
+    }
 
-        printf("Inserted %d document(s)\n", $insertOneResult->getInsertedCount());
+    protected function validate(): bool
+    {
+        $db = $this->db_name;
+        if (!$this->checkAvailabilityOfDB($db) && !in_array($db, $this->defaultDB)) {
+            exit("Database $db not found");
+        }
+        return true;
+    }
 
-        var_dump($insertOneResult->getInsertedId());
+    protected function checkAvailabilityOfDB($database_name) : bool
+    {
+        $databases = $this->client->listDatabases();
+        foreach ($databases as $database) {
+            if ($database_name === $database["name"]) {
+                return true;
+            }
+        }
+        return false;
     }
 }
