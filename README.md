@@ -6,6 +6,8 @@ PHP Template with advanced features such as user-management system, login logout
 ## Features:
 - [x] Validation (Half Complete with polishing left)
 - [x] .htaccess redirection
+- [ ] Register (Backend) {Left validating if username/email exists}
+- [ ] Register (Frontend)
 - [ ] Router
 - [ ] View renderer
 - [ ] Admin control panel

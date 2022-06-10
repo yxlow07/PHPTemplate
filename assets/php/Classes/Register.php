@@ -24,6 +24,7 @@ class Register extends authUtility
     }
 
     //TODO: MOVE CLASS TO AUTHUTILITY
+    #[NoReturn]
     private function validate(array $data, array $validate_options): void
     {
         $errors = [];
@@ -84,7 +85,7 @@ class Register extends authUtility
                 $item = password_hash($item, PASSWORD_BCRYPT, ["cost" => 11]);
             }
             if (in_array($key, $fields)) {
-                $sanitised_data[$key] = addslashes(htmlspecialchars(filter_var($item, FILTER_SANITIZE_EMAIL)));
+                $sanitised_data[$key] = $this->sanitise($item);
             }
         }
         return [...$sanitised_data, ...$this->default_values];

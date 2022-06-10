@@ -28,4 +28,21 @@ class authUtility
     {
         return !preg_match("/Database.*failed/mi", $db_return);
     }
+
+    protected function sanitise(mixed $value): string
+    {
+        return addslashes(htmlspecialchars(filter_var($value, FILTER_SANITIZE_EMAIL)));
+    }
+
+    protected function isEmail(string $value): bool
+    {
+        return preg_match("/[a-zA-Z\d+_.-]+@[a-zA-Z\d.-]/", $value);
+    }
+
+    protected function e_u(string $item) : array
+    {
+        $sanitised_item = $this->sanitise($item);
+        $key = $this->isEmail($item) ? "email" : "username";
+        return [$key, $sanitised_item];
+    }
 }

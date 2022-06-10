@@ -3,6 +3,7 @@ namespace auth;
 
 use \MongoDB\Client;
 use \MongoDB\Collection;
+use MongoDB\Model\BSONDocument as BSONDoc;
 
 include_once dirname(__DIR__) . "/config.php";
 
@@ -25,6 +26,14 @@ class MongoDatabase
         if ($this->validate()) {
             $res = $this->collection->insertOne($data);
             return $res->isAcknowledged() ? (string) $res->getInsertedId(): "Database insert failed";
+        }
+        return "Database failed";
+    }
+
+    public function find(array $data) : string|null|BSONDoc
+    {
+        if ($this->validate()) {
+            return $this->collection->findOne($data);
         }
         return "Database failed";
     }

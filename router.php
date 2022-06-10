@@ -28,7 +28,7 @@ $router->POST("/register", function () {
     new Register($_POST, "ProjectPapa", "users", $default_values);
 });
 $router->POST("/login", function () {
-    new Login($_POST);
+    new Login($_POST, "ProjectPapa", "users");
 });
 
 $router->run();
