@@ -75,7 +75,8 @@ class Login extends authUtility
         }
         if (password_verify($pwd, $result[$this->pwd_field_name])) {
             unset($result[$this->pwd_field_name]);
-            $this->returnJson(["status" => true, (array) $result]);
+            $this->updateSession((array) $result);
+            $this->returnJson(["status" => true]);
         }
     }
 

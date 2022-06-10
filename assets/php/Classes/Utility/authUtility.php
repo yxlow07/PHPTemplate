@@ -45,4 +45,15 @@ class authUtility
         $key = $this->isEmail($item) ? "email" : "username";
         return [$key, $sanitised_item];
     }
+
+    protected function updateSession(array $data): void
+    {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        foreach ($data as $key => $value) {
+            $_SESSION[$key] = $value;
+        }
+    }
 }
