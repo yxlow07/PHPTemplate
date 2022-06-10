@@ -10,6 +10,7 @@ class Register extends authUtility
     private Verification $verification;
     private MongoDatabase $db;
     private array $default_values = [];
+    private string $not_unique_msg = "Account exists. Please login.";
     const email_flags = ["notEmpty", ["length"], "email"];
     const username_flags = ["notEmpty", ["length", 5, 30]];
     const pwd_flags = ["notEmpty", ["length"]];
@@ -70,11 +71,15 @@ class Register extends authUtility
     protected function handleDB(array $data, array $fields)
     {
         $filtered_data = $this->sanitiseInput($data, $fields);
-        $result = $this->db->insert($filtered_data);
-        if ($this->checkDBStatus($result)) {
-            $this->returnJson(["status" => true, "id" => $result]);
+        $unique = $this->checkUnique($filtered_data, ["email", "username"]);
+        if ($unique) {
+            $result = $this->db->insert($filtered_data);
+            if ($this->checkDBStatus($result)) {
+                $this->returnJson(["status" => true, "id" => $result]);
+            }
+            $this->returnJson(["status" => false, "message" => $result]);
         }
-        $this->returnJson(["status" => false, "message" => $result]);
+        $this->returnJson(["status" => false, "message" => $this->not_unique_msg]);
     }
 
     private function sanitiseInput(array $data, array $fields): array
@@ -89,6 +94,20 @@ class Register extends authUtility
             }
         }
         return [...$sanitised_data, ...$this->default_values];
+    }
+
+    private function checkUnique(array $filtered_data, array $attr): bool
+    {
+        foreach ($attr as $item) {
+            if (!array_key_exists($item, $filtered_data)) {
+                return false;
+            }
+            if ($this->db->find([$item => $filtered_data[$item]]) !== null) {
+                $this->not_unique_msg = ucfirst("$item already exists. Please try another or log in to your existing account");
+                return false;
+            }
+        }
+        return true;
     }
 
 

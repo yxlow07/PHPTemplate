@@ -8,6 +8,8 @@ PHP Template with advanced features such as user-management system, login logout
 - [x] .htaccess redirection
 - [ ] Register (Backend) {Left validating if username/email exists}
 - [ ] Register (Frontend)
+- [x] Login (Backend)
+- [ ] Login (Frontend)
 - [ ] Router
 - [ ] View renderer
 - [ ] Admin control panel
