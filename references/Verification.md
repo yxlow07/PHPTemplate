@@ -34,6 +34,17 @@ is not disposable, its format is valid. It originally checks more values but for
 do not have the time and resources and knowledge to develop one so you got to do with what you have right, 
 "beggars can't be choosers". 
 
+### `isEmail`
+This checks the argument it receives whether if it is an email, true if it is, false otherwise. It uses the regular
+expression of `"/[a-zA-Z\d+_.-]+@[a-zA-Z\d.-]/"` to determine whether the value is valid or not.
+
+### `regexMatch`
+This function takes two arguments, both required. The first is the `mixed` type `value` which is going through the regex
+check. The second argument is an `array` which carries the attributes for the regex function. It holds the pattern, flip 
+and message. The pattern can be set to `default` which means it will pass a predefined pattern which **checks for special**
+**characters**. The `flip` in the `attr` array can be undefined and is set to false by default. If it is true, the result
+will be reversed. 
+
 _This is currently the end of the `VerificationUtility` but there is no guarantee more functions won't be added in the 
 future_
 
