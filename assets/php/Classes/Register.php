@@ -12,7 +12,11 @@ class Register extends authUtility
     private array $default_values = [];
     private string $not_unique_msg = "Account exists. Please login.";
     const email_flags = ["notEmpty", ["length"], "email"];
-    const username_flags = ["notEmpty", ["length", 5, 30]];
+    const username_flags = [
+        "notEmpty",
+        ["length", "min" => 5, "max" => 30],
+        ["regex", "pattern" => "default", "flip" => true, "msg" => "Username must not contain special characters"]
+    ];
     const pwd_flags = ["notEmpty", ["length"]];
     const supported_validation_types = ["email", "username", "pwd"];
 
@@ -109,6 +113,4 @@ class Register extends authUtility
         }
         return true;
     }
-
-
 }

@@ -44,7 +44,7 @@ class Verification extends VerificationUtility
                 switch ($item) {
                     case "length":
                         if (array_key_exists("length", $attr)) {
-                            $returns[] = "$name's length must be between " . $attr["length"][0] . " and " . $attr["length"][1] . " characters";
+                            $returns[] = "$name's length must be between " . $attr["length"]["min"] . " and " . $attr["length"]["max"] . " characters";
                         } else {
                             $returns[] = "$name's length must be between 0 and 256 characters";
                         } break;
@@ -54,6 +54,10 @@ class Verification extends VerificationUtility
                         $returns[] = "$name must be valid"; break;
                     case "notEmpty":
                         $returns[] = "$name must not be empty"; break;
+                    case "regex":
+                        $returns[] = $attr["regex"]; break;
+                    default:
+                        $returns[] = "An unknown error has occurred";
                 }
             }
         }
@@ -72,11 +76,12 @@ class Verification extends VerificationUtility
 
     private function arrayValidation(array $item, mixed $contents): array
     {
-        $length_attr = [$item[1] ?? 0, $item[2] ?? 256];
+        $length_attr = ["min" => $item["min"] ?? 0, "max" => $item["max"] ?? 256];
         return match ( strtolower($item[0]) ) {
-            "length" => ["length", $this->checkLength($contents, $length_attr[0], $length_attr[1]), $length_attr],
+            "length" => ["length", $this->checkLength($contents, $length_attr["min"], $length_attr["max"]), $length_attr],
             "match" => ["match", $this->checkMatch($contents, $item[2] ?? ""), $item[1] ?? "undefined"],
-            default => ["undefined", false],
+            "regex" => ["regex", $this->regexMatch($contents, $item), $item["msg"] ?? "Invalid pattern"],
+            default => ["undefined", false, false],
         };
     }
 
@@ -97,10 +102,11 @@ class Verification extends VerificationUtility
     // TODO: revert back to curl request on launch
     private function checkEmail(string $email): bool
     {
+        $formatValid = $this->isEmail($email);
+        return $formatValid;
 //        $email_checked_data = $this->emailAPIReturn($email);
 //        $data = json_decode($email_checked_data);
 //        return $this->checkEmailReturnedJson($data);
-        return true;
     }
 
     private function checkMatch(mixed $contents, mixed $cntTwo, bool $strict = false): bool

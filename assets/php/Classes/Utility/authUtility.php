@@ -2,9 +2,11 @@
 
 namespace auth;
 
+include_once "VerificationUtility.php";
 use JetBrains\PhpStorm\NoReturn;
+use Verification\VerificationUtility;
 
-class authUtility
+class authUtility extends VerificationUtility
 {
     #[NoReturn]
     protected function returnJson(mixed $data): void
@@ -32,11 +34,6 @@ class authUtility
     protected function sanitise(mixed $value): string
     {
         return addslashes(htmlspecialchars(filter_var($value, FILTER_SANITIZE_EMAIL)));
-    }
-
-    protected function isEmail(string $value): bool
-    {
-        return preg_match("/[a-zA-Z\d+_.-]+@[a-zA-Z\d.-]/", $value);
     }
 
     protected function e_u(string $item) : array
