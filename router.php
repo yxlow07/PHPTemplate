@@ -2,7 +2,7 @@
 use auth\Login;
 use auth\Register;
 
-include_once "assets/php/config.php";
+include_once "app/php/config.php";
 
 $router = new Router(__DIR__ . "\\", "/ProjectPapa", "http://localhost/ProjectPapa");
 
@@ -14,18 +14,7 @@ $router->GET("/logout", "logout", ["wrap"]);
 
 // POST routes
 $router->POST("/register", function () {
-    $default_values = [
-        "role" => "user",
-        "status" => "offline",
-        "date_created" => date("D M Y H:i:s A"),
-        "date_modified" => date("D M Y H:i:s A"),
-        "user_info" => [
-            "name" => "",
-            "profile_img" => "",
-            "bio" => "",
-            "twoFA" => false,
-        ]
-    ];
+    $default_values = require_once "schema/register_defaults.php";
     new Register($_POST, "ProjectPapa", "users", $default_values);
 });
 $router->POST("/login", function () {

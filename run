@@ -1,3 +1,5 @@
+#!/usr/bin/env php
+
 <?php
 $short_opt = "p::";
 $long_opt = ["port::"];
