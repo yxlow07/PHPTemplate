@@ -27,6 +27,7 @@ PHP Template with advanced features such as user-management system, login logout
 - [ ] Different support for different databases
 - [ ] Custom Exception classes
 - [ ] Session recognising and tracking
+- [ ] Dynamic routing with params (I have no idea how but it might be possible but it will affect runtime)
 
 ## In depth view of the mechanics
 [Here](https://github.com/yxlow07/PHPTemplate/blob/main/references/Start.md)
