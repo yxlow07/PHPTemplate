@@ -1,19 +1,36 @@
 <!doctype html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta charset="utf-8">
     <title>404 Not Found</title>
-    <link rel="stylesheet" href="{home}/assets/css/style.error.css" type="text/css">
+    <!--TODO: Fix the bg image-->
+    <style>
+        body {
+            font-family: Baskerville, "Palatino Linotype", Palatino, "Century Schoolbook L", "Times New Roman", serif;
+            font-size: x-large;
+        }
+        h1,p {
+            text-align: center;
+        }
+        body {
+            background-image: url("errors/bg.png");
+            background-repeat: no-repeat;
+            background-size: cover;
+            overflow: hidden;
+        }
+        .center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    </style>
 </head>
+
 <body>
-    <div class="container">
-        <div class="content">
-            <div class="errorTitle">404 Not Found</div>
-            Sorry the requested page is not found. Return to&nbsp;<a href="{home}/">home page here</a>
-        </div>
-    </div>
+<div class="center">
+    <h1>404 Not Found</h1>
+    <p><i>Congratulations! You have found what you're looking for: nothing :)</i></p>
+</div>
 </body>
 </html>
