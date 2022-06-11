@@ -1,14 +1,13 @@
 <?php
 
-namespace auth;
+namespace app\auth;
+use app\db\MongoDatabase;
+use app\validation\Validation;
 use JetBrains\PhpStorm\NoReturn;
-use Verification\Verification;
-
-include_once dirname(__DIR__) . "/autoload.php";
 
 class Login extends authUtility
 {
-    private Verification $verification;
+    private Validation $verification;
     private MongoDatabase $db;
     private string $pwd_field_name;
     const e_u_flags = ["notEmpty", ["length"]];
@@ -17,7 +16,7 @@ class Login extends authUtility
 
 
     public function __construct(array $data, string $db_name, string $collection_name, string $pwd_field_name = "pwd", array $validate_options = []) {
-        $this->verification = new Verification();
+        $this->verification = new Validation();
         $this->db = new MongoDatabase($db_name, $collection_name);
         $this->pwd_field_name = $pwd_field_name;
         $this->run($data, $validate_options);

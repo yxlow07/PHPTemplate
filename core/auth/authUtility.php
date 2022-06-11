@@ -1,12 +1,11 @@
 <?php
 
-namespace auth;
+namespace app\auth;
 
-include_once "VerificationUtility.php";
 use JetBrains\PhpStorm\NoReturn;
-use Verification\VerificationUtility;
+use app\validation\ValidationUtility;
 
-class authUtility extends VerificationUtility
+class authUtility extends ValidationUtility
 {
     #[NoReturn]
     protected function returnJson(mixed $data): void

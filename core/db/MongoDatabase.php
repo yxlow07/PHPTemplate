@@ -1,11 +1,9 @@
 <?php
-namespace auth;
+namespace app\db;
 
 use \MongoDB\Client;
 use \MongoDB\Collection;
 use MongoDB\Model\BSONDocument as BSONDoc;
-
-include_once dirname(__DIR__) . "/config.php";
 
 class MongoDatabase
 {

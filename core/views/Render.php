@@ -1,5 +1,5 @@
 <?php
-namespace app\Router;
+namespace app\views;
 
 use JetBrains\PhpStorm\ArrayShape;
 
@@ -52,11 +52,9 @@ class Render
         return $check;
     }
 
-    public function render(string $file_name, array $options): void
+    public function render(string $file_name, array $options = []): void
     {
-        if (in_array("wrap", $options)) {
-            echo $this->replace(["header.php", $file_name, "footer.php"]);
-        }
+        echo $this->replace(["header.php", $file_name, "footer.php"]);
     }
 
     #[ArrayShape(["pages_location" => "string", "raw_path" => "string"])]
@@ -64,7 +62,7 @@ class Render
     {
         $extension = $this->checkExt($file_name) ? "" : ".php";
         $path_to_file = $this->root_dir . $file_name . $extension;
-        $pages_loc = $this->root_dir . "pages/" . $file_name . $extension;
+        $pages_loc = $this->root_dir . "public/" . $file_name . $extension;
         return ["pages_location" => $pages_loc, "raw_path" => $path_to_file];
     }
 
@@ -75,6 +73,8 @@ class Render
             $check_exists = $this->checkFileExists($file, true);
             if ($check_exists["exists"]) {
                 include str_replace("/", "\\", $check_exists["loc"]);
+            } else {
+                exit("Header/Footer file not found");
             }
         }
         ob_end_flush();

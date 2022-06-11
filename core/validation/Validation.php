@@ -1,7 +1,8 @@
 <?php
-namespace Verification;
 
-class Verification extends VerificationUtility
+namespace app\validation;
+
+class Validation extends ValidationUtility
 {
     /**
      * Validate content

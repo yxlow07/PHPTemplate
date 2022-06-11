@@ -1,7 +1,8 @@
 <?php
-namespace Verification;
 
-class VerificationUtility
+namespace app\validation;
+
+class ValidationUtility
 {
     public string $regexSpecialChar = "/[^a-zA-Z0-9_-]/mi";
 

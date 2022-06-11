@@ -1,8 +1,9 @@
 <?php
-use auth\Login;
-use auth\Register;
+require_once __DIR__ . "/vendor/autoload.php";
 
-include_once "app/php/config.php";
+use app\router\Router;
+use app\auth\Login;
+use app\auth\Register;
 
 $router = new Router(__DIR__ . "\\", "/ProjectPapa", "http://localhost/ProjectPapa");
 

@@ -1,6 +1,8 @@
 <?php
 
-use app\Router\Render;
+namespace app\router;
+
+use app\views\Render;
 use JetBrains\PhpStorm\ArrayShape;
 
 class Router
@@ -13,7 +15,8 @@ class Router
         public string $root_dir = "",
         public string $route_excl = "",
         public string $home = "http://localhost/"
-    ) {
+    )
+    {
         $this->render = new Render($this->root_dir, $this->home);
     }
 
@@ -54,7 +57,7 @@ class Router
         return $returns;
     }
 
-    private function match($uri, $method) : bool|int
+    private function match($uri, $method): bool|int
     {
         return array_key_exists($uri, $this->handling) && isset($this->handling[$uri][$method]);
     }

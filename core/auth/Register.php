@@ -1,13 +1,12 @@
 <?php
-namespace auth;
-include_once dirname(__DIR__) . "/autoload.php";
-
+namespace app\auth;
+use app\db\MongoDatabase;
+use app\validation\Validation;
 use JetBrains\PhpStorm\NoReturn;
-use Verification\Verification;
 
 class Register extends authUtility
 {
-    private Verification $verification;
+    private Validation $verification;
     private MongoDatabase $db;
     private array $default_values = [];
     private string $not_unique_msg = "Account exists. Please login.";
@@ -21,7 +20,7 @@ class Register extends authUtility
     const supported_validation_types = ["email", "username", "pwd"];
 
     public function __construct(array $data, string $db_name, string $collection_name, array $default_values = [], array $validate_options = []) {
-        $this->verification = new Verification();
+        $this->verification = new Validation();
         $this->db = new MongoDatabase($db_name, $collection_name);
         $this->default_values = $default_values;
 

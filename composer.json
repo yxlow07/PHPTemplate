@@ -1,5 +1,19 @@
 {
+    "name": "yxlow07/php_template",
+    "authors": [
+        {
+            "name": "Yxlow07",
+            "email": "M-8717828@moe-dl.edu.my"
+        }
+    ],
+    "description": "PHP Template for developers",
+    "autoload": {
+        "psr-4": {
+            "app\\": "./core"
+        }
+    },
     "require": {
-        "mongodb/mongodb": "^1.12"
+        "mongodb/mongodb": "^1.12",
+        "ext-curl": "*"
     }
 }
