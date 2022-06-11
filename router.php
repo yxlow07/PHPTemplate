@@ -10,6 +10,7 @@ $router = new Router(__DIR__ . "\\", "/ProjectPapa", "http://localhost/ProjectPa
 $router->GET("/", "index", ["wrap"]);
 $router->GET("/register", "register", ["wrap"]);
 $router->GET("/login", "login", ["wrap"]);
+$router->GET("/logout", "logout", ["wrap"]);
 
 // POST routes
 $router->POST("/register", function () {

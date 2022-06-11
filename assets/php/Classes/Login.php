@@ -78,6 +78,7 @@ class Login extends authUtility
             $this->updateSession((array) $result);
             $this->returnJson(["status" => true]);
         }
+        $this->returnJson(["status" => false, "message" => "Password is wrong", "debug" => $result]);
     }
 
     private function sanitiseInput(array $data, array $fields): array

@@ -21,6 +21,7 @@ class Router
     {
         $this->handling[$route]["GET"] = ["fn" => $fn, "options" => $options];
     }
+
     public function POST(string $route, callable|object|string $fn, array $options = []): void
     {
         $this->handling[$route]["POST"] = ["fn" => $fn, "options" => $options];
