@@ -2,14 +2,14 @@
 
 namespace app\router;
 
-use app\views\Render;
+use app\views\Views;
 use JetBrains\PhpStorm\ArrayShape;
 
 class Router
 {
     protected array $methods = ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH", "HEAD"];
     protected array $handling = [];
-    private Render $render;
+    public Views $render;
 
     public function __construct(
         public string $root_dir = "",
@@ -17,7 +17,7 @@ class Router
         public string $home = "http://localhost/"
     )
     {
-        $this->render = new Render($this->root_dir, $this->home);
+        $this->render = new Views($this->root_dir, $this->home);
     }
 
     public function GET(string $route, callable|object|string $fn, array $options = []): void
@@ -78,7 +78,7 @@ class Router
             if (is_callable($route["fn"])) {
                 call_user_func_array($route["fn"], $route["options"]);
             } else {
-                $this->render->parseFile($route["fn"], $route["options"]);
+                $this->render->render($route["fn"], $route["options"]);
             }
             return;
         }

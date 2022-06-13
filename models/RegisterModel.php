@@ -1,10 +1,11 @@
 <?php
-namespace app\auth;
+namespace main\models;
+use app\auth\authUtility;
 use app\db\MongoDatabase;
 use app\validation\Validation;
 use JetBrains\PhpStorm\NoReturn;
 
-class Register extends authUtility
+class RegisterModel extends authUtility
 {
     private Validation $verification;
     private MongoDatabase $db;
