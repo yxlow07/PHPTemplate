@@ -20,17 +20,17 @@ class Router
         $this->render = new Views($this->root_dir, $this->home);
     }
 
-    public function GET(string $route, callable|object|string $fn, array $options = []): void
+    public function GET(string $route, callable|object|string|array $fn, array $options = []): void
     {
         $this->handling[$route]["GET"] = ["fn" => $fn, "options" => $options];
     }
 
-    public function POST(string $route, callable|object|string $fn, array $options = []): void
+    public function POST(string $route, callable|object|string|array $fn, array $options = []): void
     {
         $this->handling[$route]["POST"] = ["fn" => $fn, "options" => $options];
     }
 
-    public function ALL(string $route, callable|object|string $fn, array $options = []): void
+    public function ALL(string $route, callable|object|string|array $fn, array $options = []): void
     {
         $this->handling[] = ["route" => $route, "fn" => $fn, "methods" => "GET|POST|PUT|DELETE|OPTIONS|PATCH|HEAD", "options" => $options];
         // TODO: fix the methods argument
@@ -46,18 +46,19 @@ class Router
         ];
     }
 
-    protected function processQueryString(string $query_string): array
+    public function processQueryString(string $query_string): array
     {
         $returns = [];
         if ($query_string !== "") {
             foreach (explode("&", $query_string) as $exploded) {
-                $returns[] = explode("=", $exploded);
+                $seperated = explode("=", $exploded);
+                $returns[$seperated[0]] = $seperated[1] ?? null;
             }
         }
         return $returns;
     }
 
-    private function match($uri, $method): bool|int
+    private function match($uri, $method): bool
     {
         return array_key_exists($uri, $this->handling) && isset($this->handling[$uri][$method]);
     }
@@ -66,22 +67,31 @@ class Router
     {
         $data = $this->getData();
         $vars = $this->processQueryString($data['vars']);
-        $this->handle($data["uri"], $data["method"]);
+        echo $this->handle($data["uri"], $data["method"]);
     }
 
-    private function handle(string $uri, string $method): void
+    private function handle(string $url, string $method): string
     {
+        $uri = explode("?", $url)[0];
         $match = $this->match($uri, $method);
         if ($match) {
             // TODO: the options idk how do rn
             $route = $this->handling[$uri][$method];
-            if (is_callable($route["fn"])) {
-                call_user_func_array($route["fn"], $route["options"]);
-            } else {
-                $this->render->render($route["fn"], $route["options"]);
+            $fn = $route["fn"];
+            $options = $route["options"];
+            if (is_string($fn)) {
+                return $this->render->render($fn, $options);
             }
-            return;
+            if (is_array($route["fn"])) {
+                $controller = new $fn[0];
+                $fn[0] = $controller;
+                return call_user_func_array($fn, $options);
+            }
+            if (is_callable($fn)) {
+                return call_user_func_array($fn, $options);
+            }
+            return "";
         }
-        echo $this->render->throwError(404);
+        return $this->render->throwError(404);
     }
 }

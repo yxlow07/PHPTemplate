@@ -1,27 +1,33 @@
 <?php
 
 use app\router\Router;
-use main\models\LoginModel;
-use main\models\RegisterModel;
+use Dotenv\Dotenv;
+use main\controllers\LoginController;
+use main\controllers\RegisterController;
 
 require_once __DIR__ . "/vendor/autoload.php";
 require_once __DIR__ . "/app/config.php";
 
 $router = new Router(__DIR__ . "\\", "/ProjectPapa", "http://localhost/ProjectPapa");
+$dotenv = Dotenv::createImmutable(__DIR__);
+$dotenv->load();
 
-// GET routes
-$router->GET("/", "home", ["wrap"]);
-$router->GET("/register", "register", ["wrap"]);
-$router->GET("/login", "login", ["wrap"]);
-$router->GET("/logout", "logout", ["wrap"]);
+$router->GET("/", "home");
+$router->GET("/home", "home");
+$router->GET("/register", "register");
+$router->GET("/login", "login");
+$router->GET("/logout", [main\controllers\LoginController::class, "logout"]);
 
-// POST routes
 $router->POST("/register", function () {
-    $default_values = require_once "schema/register_defaults.php";
-    new RegisterModel($_POST, "ProjectPapa", "users", $default_values);
+    $regController = new RegisterController();
+    $regController->setDefaultValues(__DIR__, "register_defaults.php");
+    $regController->setDb($_ENV["DB_NAME"], $_ENV["USER_TABLE"]);
+    $regController->run($_POST);
 });
 $router->POST("/login", function () {
-    new LoginModel($_POST, "ProjectPapa", "users");
+    $loginController = new LoginController();
+    $loginController->setDb($_ENV["DB_NAME"], $_ENV["USER_TABLE"]);
+    $loginController->run($_POST);
 });
 
 $router->run();

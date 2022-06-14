@@ -12,7 +12,7 @@ class Views
         public string $home = "http://localhost/"
     ){}
 
-    public function throwError(int $statusCode = 500) :string
+    public function throwError(int $statusCode = 500): string
     {
         $err_dir = $this->root_dir . "errors\\";
         $file_contents = file_get_contents($err_dir . "$statusCode.php") ?? false;
@@ -31,9 +31,9 @@ class Views
         return preg_match("/.*\.php/i", $file_name);
     }
 
-    public function render(string $file_name, array $options = []): void
+    public function render(string $file_name, array $options = []): string
     {
-        echo $this->replace($file_name);
+        return $this->replace($file_name);
     }
 
     #[ArrayShape(["pages_location" => "string", "raw_path" => "string"])]

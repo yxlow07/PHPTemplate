@@ -2,10 +2,10 @@
 
 namespace app\auth;
 
-use JetBrains\PhpStorm\NoReturn;
 use app\validation\ValidationUtility;
+use JetBrains\PhpStorm\NoReturn;
 
-class authUtility extends ValidationUtility
+abstract class authUtility extends ValidationUtility
 {
     #[NoReturn]
     protected function returnJson(mixed $data): void
@@ -14,7 +14,7 @@ class authUtility extends ValidationUtility
         echo json_encode($data);
         exit();
     }
-    
+
     protected function checkIfNoErrors(array $data): bool
     {
         foreach ($data as $key => $item) {
@@ -52,4 +52,6 @@ class authUtility extends ValidationUtility
             $_SESSION[$key] = $value;
         }
     }
+
+    abstract public function setDB(string $dbName, string $collectionName);
 }

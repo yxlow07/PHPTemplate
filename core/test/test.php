@@ -30,6 +30,8 @@
 //    print_r($matches);
 //}
 
-require_once "./vendor/autoload.php";
+require_once "../../vendor/autoload.php";
 
-$auth = new app\auth\authUtility();
+$router = new \app\router\Router();
+$qs = $router->processQueryString("hello=world&test=hi&this");
+var_dump($qs);

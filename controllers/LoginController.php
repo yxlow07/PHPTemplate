@@ -1,12 +1,13 @@
 <?php
 
-namespace main\models;
+namespace main\controllers;
+
 use app\auth\authUtility;
 use app\db\MongoDatabase;
 use app\validation\Validation;
 use JetBrains\PhpStorm\NoReturn;
 
-class LoginModel extends authUtility
+class LoginController extends authUtility
 {
     private Validation $verification;
     private MongoDatabase $db;
@@ -16,11 +17,10 @@ class LoginModel extends authUtility
     const supported_validation_types = ["e_u", "pwd"];
 
 
-    public function __construct(array $data, string $db_name, string $collection_name, string $pwd_field_name = "pwd", array $validate_options = []) {
+    public function __construct()
+    {
         $this->verification = new Validation();
-        $this->db = new MongoDatabase($db_name, $collection_name);
-        $this->pwd_field_name = $pwd_field_name;
-        $this->run($data, $validate_options);
+        $this->setPwdFieldName("pwd");
     }
 
     #[NoReturn]
@@ -43,9 +43,9 @@ class LoginModel extends authUtility
         $this->handleDB($data, $fields);
     }
 
-    public function run(array $data, array $validate_options) :void
+    public function run(array $data, array $validate_options = []): void
     {
-        if (isset($data['login'])){
+        if (isset($data['login'])) {
             $this->validate($data, $validate_options);
         }
     }
@@ -95,5 +95,23 @@ class LoginModel extends authUtility
             }
         }
         return $sanitised_data;
+    }
+
+    public static function logout(): void
+    {
+        if (session_status() !== PHP_SESSION_NONE) {
+            session_destroy();
+        }
+        header("Location: ./home?logout=true");
+    }
+
+    public function setPwdFieldName(string $pwd_field_name): void
+    {
+        $this->pwd_field_name = $pwd_field_name;
+    }
+
+    public function setDb(string $dbName, string $collectionName): void
+    {
+        $this->db = new MongoDatabase($dbName, $collectionName);
     }
 }

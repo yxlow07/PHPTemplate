@@ -1,15 +1,16 @@
 <?php
-namespace main\models;
+namespace main\controllers;
+
 use app\auth\authUtility;
 use app\db\MongoDatabase;
 use app\validation\Validation;
 use JetBrains\PhpStorm\NoReturn;
 
-class RegisterModel extends authUtility
+class RegisterController extends authUtility
 {
     private Validation $verification;
     private MongoDatabase $db;
-    private array $default_values = [];
+    private array $default_values;
     private string $not_unique_msg = "Account exists. Please login.";
     const email_flags = ["notEmpty", ["length"], "email"];
     const username_flags = [
@@ -20,12 +21,9 @@ class RegisterModel extends authUtility
     const pwd_flags = ["notEmpty", ["length"]];
     const supported_validation_types = ["email", "username", "pwd"];
 
-    public function __construct(array $data, string $db_name, string $collection_name, array $default_values = [], array $validate_options = []) {
+    public function __construct()
+    {
         $this->verification = new Validation();
-        $this->db = new MongoDatabase($db_name, $collection_name);
-        $this->default_values = $default_values;
-
-        $this->run($data, $validate_options);
     }
 
     //TODO: MOVE CLASS TO AUTHUTILITY
@@ -50,9 +48,9 @@ class RegisterModel extends authUtility
         $this->handleDB($data, $fields);
     }
 
-    public function run(array $data, array $validate_options) :void
+    public function run(array $data, array $validate_options = []): void
     {
-        if (isset($data['reg'])){
+        if (isset($data['reg'])) {
             $this->validate($data, $validate_options);
         }
     }
@@ -112,5 +110,27 @@ class RegisterModel extends authUtility
             }
         }
         return true;
+    }
+
+    public function setDb(string $dbName, string $collectionName): void
+    {
+        $this->db = new MongoDatabase($dbName, $collectionName);
+    }
+
+    /**
+     * @return array
+     */
+    public function getDefaultValues(): array
+    {
+        return $this->default_values;
+    }
+
+    public function setDefaultValues(string $dir, string $file): void
+    {
+        $fileName = $dir . "/app/schema/" . $file;
+        if (!file_exists($fileName)) {
+            exit("$fileName does not exist.");
+        }
+        $this->default_values = require_once $fileName;
     }
 }
