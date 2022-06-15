@@ -3,3 +3,29 @@
 body {
     font-family: 'EB Garamond', Serif, serif;
 }
+
+form {
+    /*border: rgba(119, 119, 119, 0.69) solid;*/
+    /*padding: 30px;*/
+    /*border-radius: 30px;*/
+    /*margin: 30px;*/
+    max-width: 500px;
+}
+
+button[type=submit] {
+    min-width: 210px;
+    margin-top: 25px;
+    border-radius: 0;
+}
+
+label {
+    text-transform: uppercase;
+    font-size: 90%;
+}
+
+.vertical-center {
+    min-height: 90%;  /* Fallback for browsers do NOT support vh unit */
+    min-height: 90vh; /* These two lines are counted as one :-)       */
+    display: flex;
+    align-items: center;
+}

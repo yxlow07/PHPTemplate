@@ -2,11 +2,16 @@
 
 namespace app\auth;
 
+use app\db\MongoDatabase;
+use app\validation\Validation;
 use app\validation\ValidationUtility;
 use JetBrains\PhpStorm\NoReturn;
 
 abstract class authUtility extends ValidationUtility
 {
+    private Validation $verification;
+    private MongoDatabase $db;
+
     #[NoReturn]
     protected function returnJson(mixed $data): void
     {
@@ -30,7 +35,7 @@ abstract class authUtility extends ValidationUtility
         return !preg_match("/Database.*failed/mi", $db_return);
     }
 
-    protected function sanitise(mixed $value): string
+    public function sanitise(mixed $value): string
     {
         return addslashes(htmlspecialchars(filter_var($value, FILTER_SANITIZE_EMAIL)));
     }

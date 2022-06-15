@@ -8,8 +8,6 @@ use JetBrains\PhpStorm\NoReturn;
 
 class RegisterController extends authUtility
 {
-    private Validation $verification;
-    private MongoDatabase $db;
     private array $default_values;
     private string $not_unique_msg = "Account exists. Please login.";
     const email_flags = ["notEmpty", ["length"], "email"];
@@ -89,7 +87,8 @@ class RegisterController extends authUtility
         $sanitised_data = [];
         foreach ($data as $key => $item) {
             if ($key === "pwd") {
-                $item = password_hash($item, PASSWORD_BCRYPT, ["cost" => 11]);
+                $sanitised_data[$key] = password_hash($item, PASSWORD_BCRYPT);
+                continue;
             }
             if (in_array($key, $fields)) {
                 $sanitised_data[$key] = $this->sanitise($item);

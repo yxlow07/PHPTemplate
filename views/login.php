@@ -1,18 +1,28 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Login</title>
-</head>
-<body>
-    <form action="login" method="post">
-        <label>Email / Username: </label> <input type="text" name="e_u" maxlength="256">
-        <label>Password: </label> <input type="password" name="pwd">
-        <input type="hidden" name="login">
-        <button>Login</button>
-    </form>
-</body>
-</html>
+<div class="text-center">
+    <h1 class="fw-bolder">Login</h1>
+    <p class="form-text">Sign in to continue</p>
+</div>
+<div class="row">
+    <div class="col"></div>
+    <div class="col">
+        <form action="login" method="post" class="">
+            <div class="mb-3">
+                <label for="email_or_username" class="form-label">Email address / Username:</label>
+                <input type="text" class="form-control" name="e_u" id="email_or_username">
+            </div>
+            <div class="mb-3">
+                <label for="pwd" class="form-label">Password:</label>
+                <input type="password" class="form-control" name="pwd" id="pwd">
+            </div>
+            <input type="hidden" name="login">
+            <div class="row">
+                <div class="col"></div>
+                <div class="col">
+                    <button type="submit" class="btn btn-dark w-auto">Login</button>
+                </div>
+                <div class="col"></div>
+            </div>
+        </form>
+    </div>
+    <div class="col"></div>
+</div>

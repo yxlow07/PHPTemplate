@@ -9,13 +9,10 @@ use JetBrains\PhpStorm\NoReturn;
 
 class LoginController extends authUtility
 {
-    private Validation $verification;
-    private MongoDatabase $db;
     private string $pwd_field_name;
     const e_u_flags = ["notEmpty", ["length"]];
     const pwd_flags = ["notEmpty", ["length"]];
     const supported_validation_types = ["e_u", "pwd"];
-
 
     public function __construct()
     {

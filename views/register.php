@@ -1,25 +1,34 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="shortcut icon" href="{home}/assets/images/logo2.png" type="image/x-icon">
-    <script src="{home}/assets/js/icons.js"></script>
-    <title>Register</title>
-</head>
-<body>
-<fieldset>
-    <legend>Register</legend>
-    <form action="register" method="POST">
-        <label>Email: <input type="text" name="email"> </label> <br>
-        <label>Username: <input type="text" name="username"> </label> <br>
-        <label>Password: <input type="password" name="pwd"> </label> <br>
-        <label>Confirm Password: <input type="password" name="pwdConf"> </label> <br>
-        <input type="hidden" name="reg" value="hello">
-        <button type="submit">Register</button>
-    </form>
-</fieldset>
-</body>
-</html>
+<div class="text-center">
+    <h1 class="fw-bolder">Register</h1>
+    <p class="form-text">Make your own account today</p>
+</div>
+<div class="row">
+    <div class="col"></div>
+    <div class="col">
+        <form action="register" method="post">
+            <div class="mb-3">
+                <label for="email" class="form-label">Email address</label>
+                <input type="text" class="form-control" name="email" id="email">
+            </div>
+            <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" class="form-control" name="username" id="username">
+            </div>
+            <div class="mb-3">
+                <label for="pwd" class="form-label">Password:</label>
+                <input type="password" class="form-control" name="pwd" id="pwd">
+            </div>
+            <div class="mb-3">
+                <label for="pwdConf" class="form-label">Confirm Password:</label>
+                <input type="password" class="form-control" name="pwdConf" id="pwdConf">
+            </div>
+            <input type="hidden" name="reg">
+            <div class="row">
+                <div class="col"></div>
+                <div class="col"><button type="submit" class="btn btn-dark w-auto">Register</button></div>
+                <div class="col"></div>
+            </div>
+        </form>
+    </div>
+    <div class="col"></div>
+</div>

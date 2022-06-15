@@ -32,6 +32,12 @@
 
 require_once "../../vendor/autoload.php";
 
-$router = new \app\router\Router();
-$qs = $router->processQueryString("hello=world&test=hi&this");
-var_dump($qs);
+//$router = new \app\router\Router();
+//$qs = $router->processQueryString("hello=world&test=hi&this");
+//var_dump($qs);
+
+# Hashing passwords what the fuck
+$authUtilty = new app\auth\authUtility();
+$password = password_hash("hello world", PASSWORD_BCRYPT);
+echo $password . PHP_EOL;
+echo $authUtilty->sanitise($password);
