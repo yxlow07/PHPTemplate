@@ -12,35 +12,48 @@ class Router
     public Views $render;
 
     public function __construct(
-        public string $root_dir = "",
-        public string $route_excl = "",
-        public string $home = "http://localhost/"
+        public string $home = "http://localhost/",
+        public string $dir = ""
     )
     {
-        $this->render = new Views($this->root_dir, $this->home);
+        $this->render = new Views($this->home, $this->dir);
     }
 
     public function GET(string $route, callable|object|string|array $fn, array $options = []): void
     {
+        $route = trim($route, "/\\");
         $this->handling[$route]["GET"] = ["fn" => $fn, "options" => $options];
     }
 
     public function POST(string $route, callable|object|string|array $fn, array $options = []): void
     {
+        $route = trim($route, "/\\");
         $this->handling[$route]["POST"] = ["fn" => $fn, "options" => $options];
     }
 
     public function ALL(string $route, callable|object|string|array $fn, array $options = []): void
     {
-        $this->handling[] = ["route" => $route, "fn" => $fn, "methods" => "GET|POST|PUT|DELETE|OPTIONS|PATCH|HEAD", "options" => $options];
-        // TODO: fix the methods argument
+        $route = trim($route, "/\\");
+        $methods = explode("|", "GET|POST|PUT|DELETE|OPTIONS|PATCH|HEAD");
+        foreach ($methods as $method) {
+            $this->handling[$route][strtoupper($method)] = ["fn" => $fn, "options" => $options];
+        }
+    }
+
+    protected function getUri(): string
+    {
+        $uri = rawurldecode($_SERVER['REQUEST_URI']);
+        if ($this->home !== "/") {
+            $uri = str_replace(trim($this->home, "\\/"), "", $uri);
+        }
+        return trim($uri, " \t\n\r\0\x0B\\/");
     }
 
     #[ArrayShape(["uri" => "mixed|string", "method" => "mixed|string", "vars" => "mixed|string"])]
     protected function getData(): array
     {
         return [
-            "uri" => str_replace($this->route_excl, "", rawurldecode($_SERVER['REQUEST_URI']) ?? "/"),
+            "uri" => $this->getUri(),
             "method" => $_SERVER['REQUEST_METHOD'] ?? "GET",
             "vars" => $_SERVER['QUERY_STRING'] ?? ""
         ];
@@ -70,7 +83,7 @@ class Router
         echo $this->handle($data["uri"], $data["method"]);
     }
 
-    private function handle(string $url, string $method): string
+    private function handle(string $url, string $method): string|null
     {
         $uri = explode("?", $url)[0];
         $match = $this->match($uri, $method);

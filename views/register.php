@@ -25,10 +25,13 @@
             <input type="hidden" name="reg">
             <div class="row">
                 <div class="col"></div>
-                <div class="col"><button type="submit" class="btn btn-dark w-auto">Register</button></div>
+                <div class="col">
+                    <button type="submit" class="btn btn-dark w-auto">Register</button>
+                </div>
                 <div class="col"></div>
             </div>
         </form>
     </div>
     <div class="col"></div>
 </div>
+<script>document.title = "Register"</script>

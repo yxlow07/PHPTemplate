@@ -26,3 +26,4 @@
     </div>
     <div class="col"></div>
 </div>
+<script>document.title = "Login"</script>

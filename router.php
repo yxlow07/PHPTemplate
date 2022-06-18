@@ -5,17 +5,19 @@ use Dotenv\Dotenv;
 use main\controllers\LoginController;
 use main\controllers\RegisterController;
 
-require_once __DIR__ . "/vendor/autoload.php";
-require_once __DIR__ . "/app/config.php";
+$dir = __DIR__ . "\\";
 
-$router = new Router(__DIR__ . "\\", "/ProjectPapa", "http://localhost/ProjectPapa");
-$dotenv = Dotenv::createImmutable(__DIR__);
+require_once $dir . "/vendor/autoload.php";
+require_once $dir . "/app/config.php";
+
+$dotenv = Dotenv::createImmutable($dir);
 $dotenv->load();
+$router = new Router($_ENV["ROOT"], $dir);
 
 $router->GET("/", "home");
 $router->GET("/home", "home");
-$router->GET("/register", "register");
-$router->GET("/login", "login");
+$router->GET("/register", "register", ["layout" => "auth"]);
+$router->GET("/login", "login", ["layout" => "auth"]);
 $router->GET("/logout", [main\controllers\LoginController::class, "logout"]);
 
 $router->POST("/register", function () {
@@ -24,6 +26,7 @@ $router->POST("/register", function () {
     $regController->setDb($_ENV["DB_NAME"], $_ENV["USER_TABLE"]);
     $regController->run($_POST);
 });
+
 $router->POST("/login", function () {
     $loginController = new LoginController();
     $loginController->setDb($_ENV["DB_NAME"], $_ENV["USER_TABLE"]);

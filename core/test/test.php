@@ -37,7 +37,7 @@ require_once "../../vendor/autoload.php";
 //var_dump($qs);
 
 # Hashing passwords what the fuck
-$authUtilty = new app\auth\authUtility();
-$password = password_hash("hello world", PASSWORD_BCRYPT);
-echo $password . PHP_EOL;
-echo $authUtilty->sanitise($password);
+//$authUtilty = new app\auth\authUtility();
+//$password = password_hash("hello world", PASSWORD_BCRYPT);
+//echo $password . PHP_EOL;
+//echo $authUtilty->sanitise($password);

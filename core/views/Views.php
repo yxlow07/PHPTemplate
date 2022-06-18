@@ -8,9 +8,11 @@ class Views
     public string $layout = "main";
 
     public function __construct(
-        public string $root_dir = "",
-        public string $home = "http://localhost/"
-    ){}
+        public string $home = "http://localhost/",
+        public string $root_dir = ""
+    )
+    {
+    }
 
     public function throwError(int $statusCode = 500): string
     {
@@ -33,6 +35,9 @@ class Views
 
     public function render(string $file_name, array $options = []): string
     {
+        if (isset($options["layout"])) {
+            $this->setLayout($options["layout"]);
+        }
         return $this->replace($file_name);
     }
 
