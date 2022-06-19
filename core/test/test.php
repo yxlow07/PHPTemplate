@@ -30,14 +30,29 @@
 //    print_r($matches);
 //}
 
+use app\db\MongoDatabase;
+use Dotenv\Dotenv;
+use MongoDB\BSON\ObjectId;
+
 require_once "../../vendor/autoload.php";
+$dotenv = Dotenv::createImmutable(dirname(__DIR__, 2));
+$dotenv->load();
 
 //$router = new \app\router\Router();
 //$qs = $router->processQueryString("hello=world&test=hi&this");
 //var_dump($qs);
 
-# Hashing passwords what the fuck
+# Hashing passwords what the fuck (I didn't expect this bug)
 //$authUtilty = new app\auth\authUtility();
 //$password = password_hash("hello world", PASSWORD_BCRYPT);
 //echo $password . PHP_EOL;
 //echo $authUtilty->sanitise($password);
+
+# Update document
+$db = new MongoDatabase($_ENV["DB_NAME"], $_ENV["USER_TABLE"]);
+$id = new ObjectId("62a7127a4199b36dd70515e2");
+$result = $db->update(["_id" => $id], ["status" => "online"]);
+echo "Matched count: ";
+var_dump($result->getMatchedCount());
+echo "Modified count: ";
+var_dump($result->getModifiedCount());

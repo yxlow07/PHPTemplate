@@ -29,6 +29,7 @@ PHP Template with advanced features such as user-management system, login logout
 - [ ] Session recognising and tracking
 - [ ] Dynamic routing with params (I have no idea how but it might be possible but it will affect runtime)
 - [ ] Title setting with first line of view file
+- [ ] Profile picture auto cropping
 
 ## In depth view of the mechanics
 

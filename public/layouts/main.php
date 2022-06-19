@@ -31,7 +31,12 @@
                     </button>
                 </a>
                 <a href="{home}/login">
-                    <button class="btn m-sm-1 btn-outline-light">Login <i class="fa-solid fa-user"></i></button>
+                    <button class="btn m-sm-1 btn-outline-light">Login <i class="fa-solid fa-right-to-bracket"></i>
+                    </button>
+                </a>
+                <a href="{home}/profile">
+                    <button class="btn m-sm-1 btn-outline-light">Profile <i class="fa-solid fa-circle-user"></i>
+                    </button>
                 </a>
                 <a href="{home}/logout">
                     <button class="btn m-sm-1 btn-outline-light">Logout <i class="fa-solid fa-right-from-bracket"></i>
@@ -41,8 +46,10 @@
         </div>
     </div>
 </nav>
-<div class="container py-4">
-    {{content}}
+<div class="vertical-center">
+    <div class="container py-4">
+        {{content}}
+    </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
         crossorigin="anonymous"></script>

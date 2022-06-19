@@ -33,12 +33,12 @@ class Views
         return preg_match("/.*\.php/i", $file_name);
     }
 
-    public function render(string $file_name, array $options = []): string
+    public function render(string $file_name, array $options = []): void
     {
         if (isset($options["layout"])) {
             $this->setLayout($options["layout"]);
         }
-        return $this->replace($file_name);
+        echo $this->replace($file_name);
     }
 
     #[ArrayShape(["pages_location" => "string", "raw_path" => "string"])]
@@ -64,7 +64,7 @@ class Views
         $layout = $this->getLayout($this->layout);
         $view = $this->getView($file);
 
-        return (str_replace(["{{content}}", "{home}"], [$view, $this->home], $layout));
+        return str_replace(["{{content}}", "{home}"], [$view, rtrim($this->home, "\\/")], $layout);
     }
 
     /**

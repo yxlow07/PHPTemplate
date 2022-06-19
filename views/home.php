@@ -1,3 +1,1 @@
-<pre>
-<?php print_r($_SESSION) ?>
-</pre>
+<h1>Home page</h1>

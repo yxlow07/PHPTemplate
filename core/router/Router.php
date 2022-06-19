@@ -93,7 +93,7 @@ class Router
             $fn = $route["fn"];
             $options = $route["options"];
             if (is_string($fn)) {
-                return $this->render->render($fn, $options);
+                $this->render->render($fn, $options);
             }
             if (is_array($route["fn"])) {
                 $controller = new $fn[0];

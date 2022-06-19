@@ -1,8 +1,8 @@
 <?php
 namespace app\db;
 
-use \MongoDB\Client;
-use \MongoDB\Collection;
+use MongoDB\Client;
+use MongoDB\Collection;
 use MongoDB\Model\BSONDocument as BSONDoc;
 
 class MongoDatabase
@@ -28,12 +28,20 @@ class MongoDatabase
         return "Database failed";
     }
 
-    public function find(array $data) : string|null|BSONDoc
+    public function find(array $data): string|null|BSONDoc
     {
         if ($this->validate()) {
             return $this->collection->findOne($data);
         }
         return "Database failed";
+    }
+
+    public function update(array $find, array $data): \MongoDB\UpdateResult
+    {
+        return $this->collection->updateOne(
+            $find,
+            ['$set' => $data]
+        );
     }
 
     protected function validate(): bool

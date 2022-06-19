@@ -3,6 +3,7 @@
 use app\router\Router;
 use Dotenv\Dotenv;
 use main\controllers\LoginController;
+use main\controllers\ProfileController;
 use main\controllers\RegisterController;
 
 $dir = __DIR__ . "\\";
@@ -18,7 +19,8 @@ $router->GET("/", "home");
 $router->GET("/home", "home");
 $router->GET("/register", "register", ["layout" => "auth"]);
 $router->GET("/login", "login", ["layout" => "auth"]);
-$router->GET("/logout", [main\controllers\LoginController::class, "logout"]);
+$router->GET("/logout", [LoginController::class, "logout"]);
+$router->GET("/profile", [ProfileController::class, "get"]);
 
 $router->POST("/register", function () {
     $regController = new RegisterController();
