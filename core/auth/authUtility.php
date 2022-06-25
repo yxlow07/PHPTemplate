@@ -5,20 +5,11 @@ namespace app\auth;
 use app\db\MongoDatabase;
 use app\validation\Validation;
 use app\validation\ValidationUtility;
-use JetBrains\PhpStorm\NoReturn;
 
 abstract class authUtility extends ValidationUtility
 {
     private Validation $verification;
     private MongoDatabase $db;
-
-    #[NoReturn]
-    protected function returnJson(mixed $data): void
-    {
-        header("Content-Type: application/json");
-        echo json_encode($data);
-        exit();
-    }
 
     protected function checkIfNoErrors(array $data): bool
     {
@@ -47,12 +38,15 @@ abstract class authUtility extends ValidationUtility
         return [$key, $sanitised_item];
     }
 
-    protected function updateSession(array $data): void
+    public static function updateSession(array $data, bool $destroy_session = false): void
     {
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
-
+        if ($destroy_session) {
+            session_destroy();
+            session_start();
+        }
         foreach ($data as $key => $value) {
             $_SESSION[$key] = $value;
         }

@@ -13,6 +13,8 @@ class LoginController extends authUtility
     const e_u_flags = ["notEmpty", ["length"]];
     const pwd_flags = ["notEmpty", ["length"]];
     const supported_validation_types = ["e_u", "pwd"];
+    private Validation $verification;
+    private MongoDatabase $db;
 
     public function __construct()
     {
@@ -35,7 +37,7 @@ class LoginController extends authUtility
             }
         }
         if (!$this->checkIfNoErrors($errors)) {
-            $this->returnJson($errors);
+            authUtility::returnJson($errors);
         }
         $this->handleDB($data, $fields);
     }
@@ -68,14 +70,14 @@ class LoginController extends authUtility
         $pwd = $this->sanitise($data["pwd"] ?? "");
         $result = $this->db->find($filtered_data);
         if ($result === null) {
-            $this->returnJson(["status" => false, "message" => "Username/Email not found"]);
+            authUtility::returnJson(["status" => false, "message" => "Username/Email not found"]);
         }
         if (password_verify($pwd, $result[$this->pwd_field_name])) {
             unset($result[$this->pwd_field_name]);
-            $this->updateSession((array) $result);
-            $this->returnJson(["status" => true]);
+            $this->updateSession((array)$result);
+            authUtility::returnJson(["status" => true]);
         }
-        $this->returnJson(["status" => false, "message" => "Password is wrong", "debug" => $result]);
+        authUtility::returnJson(["status" => false, "message" => "Password is wrong", "debug" => $result]);
     }
 
     private function sanitiseInput(array $data, array $fields): array

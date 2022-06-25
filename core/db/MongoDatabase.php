@@ -1,9 +1,12 @@
 <?php
 namespace app\db;
 
+use app\validation\ValidationUtility;
+use JetBrains\PhpStorm\NoReturn;
 use MongoDB\Client;
 use MongoDB\Collection;
 use MongoDB\Model\BSONDocument as BSONDoc;
+use MongoDB\UpdateResult;
 
 class MongoDatabase
 {
@@ -36,7 +39,7 @@ class MongoDatabase
         return "Database failed";
     }
 
-    public function update(array $find, array $data): \MongoDB\UpdateResult
+    public function update(array $find, array $data): UpdateResult
     {
         return $this->collection->updateOne(
             $find,
@@ -53,7 +56,7 @@ class MongoDatabase
         return true;
     }
 
-    protected function checkAvailabilityOfDB($database_name) : bool
+    protected function checkAvailabilityOfDB($database_name): bool
     {
         $databases = $this->client->listDatabases();
         foreach ($databases as $database) {
@@ -62,5 +65,20 @@ class MongoDatabase
             }
         }
         return false;
+    }
+
+    #[NoReturn]
+    public static function checkUpdatedStatus(UpdateResult $result): void
+    {
+        if ($result->getMatchedCount() < 1) {
+            ValidationUtility::returnJson(["status" => false, "msg" => "Your account doesn't exist"]);
+        }
+        if (!$result->isAcknowledged()) {
+            ValidationUtility::returnJson(["status" => false, "msg" => "Your update is not acknowledged"]);
+        }
+        if ($result->getModifiedCount() < 1) {
+            ValidationUtility::returnJson(["status" => false, "msg" => "Nothing is changed"]);
+        }
+        ValidationUtility::returnJson(["status" => true, "msg" => "Successfully updated your profile"]);
     }
 }

@@ -21,18 +21,19 @@ $router->GET("/register", "register", ["layout" => "auth"]);
 $router->GET("/login", "login", ["layout" => "auth"]);
 $router->GET("/logout", [LoginController::class, "logout"]);
 $router->GET("/profile", [ProfileController::class, "get"]);
+$router->GET("/edit_profile", [ProfileController::class, "edit"]);
 
 $router->POST("/register", function () {
-    $regController = new RegisterController();
-    $regController->setDefaultValues(__DIR__, "register_defaults.php");
-    $regController->setDb($_ENV["DB_NAME"], $_ENV["USER_TABLE"]);
+    $regController = new RegisterController(__DIR__);
     $regController->run($_POST);
 });
 
 $router->POST("/login", function () {
     $loginController = new LoginController();
-    $loginController->setDb($_ENV["DB_NAME"], $_ENV["USER_TABLE"]);
+    $loginController->setDb($_SERVER["DB_NAME"], $_ENV["USER_TABLE"]);
     $loginController->run($_POST);
 });
+
+$router->POST("/edit_profile", [ProfileController::class, "run"]);
 
 $router->run();

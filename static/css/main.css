@@ -4,7 +4,7 @@ body {
     font-family: 'EB Garamond', Serif, serif;
 }
 
-form {
+.form-w500 {
     /*border: rgba(119, 119, 119, 0.69) solid;*/
     /*padding: 30px;*/
     /*border-radius: 30px;*/
@@ -12,7 +12,7 @@ form {
     max-width: 500px;
 }
 
-button[type=submit] {
+button[type=submit], .link {
     min-width: 210px;
     margin-top: 25px;
     border-radius: 0;
@@ -28,6 +28,7 @@ label {
     min-height: 80vh; /* These two lines are counted as one :-)       */
     display: flex;
     align-items: center;
+
 }
 
 .pfp {
@@ -35,4 +36,14 @@ label {
     max-height: 150px;
     margin-bottom: 50px;
 !important;
+}
+
+.edit:hover {
+    cursor: pointer;
+}
+
+.horizontal-center {
+    display: flex;
+    justify-content: center;
+    justify-items: center;
 }

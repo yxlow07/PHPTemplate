@@ -8,7 +8,8 @@ use JetBrains\PhpStorm\NoReturn;
 
 class RegisterController extends authUtility
 {
-    private array $default_values;
+    private array $default_values = [];
+    private Validation $verification;
     private string $not_unique_msg = "Account exists. Please login.";
     const email_flags = ["notEmpty", ["length"], "email"];
     const username_flags = [
@@ -19,14 +20,15 @@ class RegisterController extends authUtility
     const pwd_flags = ["notEmpty", ["length"]];
     const supported_validation_types = ["email", "username", "pwd"];
 
-    public function __construct()
+    public function __construct(
+        public string $dir
+    )
     {
         $this->verification = new Validation();
     }
 
-    //TODO: MOVE CLASS TO AUTHUTILITY
-    #[NoReturn]
-    private function validate(array $data, array $validate_options): void
+    //TODO: MOVE CLASS TO AUTHUTILITY && make it into protected smh?
+    public function validate(array $data, array $validate_options = [], $db_required = true): array
     {
         $errors = [];
         $fields = ["username", "email", "pwd"];
@@ -43,11 +45,17 @@ class RegisterController extends authUtility
         if (!$this->checkIfNoErrors($errors)) {
             $this->returnJson($errors);
         }
-        $this->handleDB($data, $fields);
+        if ($db_required) {
+            $this->handleDB($data, $fields);
+        } else {
+            return $data;
+        }
     }
 
     public function run(array $data, array $validate_options = []): void
     {
+        $this->setDefaultValues($this->dir, "register_defaults.php");
+        $this->setDb($_ENV["DB_NAME"], $_ENV["USER_TABLE"]);
         if (isset($data['reg'])) {
             $this->validate($data, $validate_options);
         }

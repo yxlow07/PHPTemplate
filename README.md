@@ -30,6 +30,13 @@ PHP Template with advanced features such as user-management system, login logout
 - [ ] Dynamic routing with params (I have no idea how but it might be possible but it will affect runtime)
 - [ ] Title setting with first line of view file
 - [ ] Profile picture auto cropping
+- [ ] Same page (span -> input) in profile page instead of seperate page [ JS knowledge rip ]
+- [ ] Replacable content with view rendering [ Take too much time ]
+- [ ] Extract messages to another file
+
+## Features that look sus
+
+- [ ] Username criticising / Profile Picture check if is funny enough [ msg => Lack of creativity ]
 
 ## In depth view of the mechanics
 
