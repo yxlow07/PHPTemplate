@@ -4,8 +4,10 @@ namespace main\controllers;
 
 use app\auth\authUtility;
 use app\db\MongoDatabase;
+use app\validation\ValidationUtility;
 use app\views\Views;
 use Dotenv\Dotenv;
+use Exception;
 use JetBrains\PhpStorm\NoReturn;
 
 class ProfileController
@@ -13,8 +15,7 @@ class ProfileController
     private Views $views;
     private static array $profileInfo = ["email", "username", "date_created", "date_modified"];
     private static array $userInfo = ["name", "profile_img", "bio"];
-    private static array $editableInfo = ["name", /*"profile_img",*/
-        "bio", "email", "username"];
+    private static array $editableInfo = ["name", "profile_img", "bio", "email", "username"];
 
     public function __construct()
     {
@@ -27,6 +28,13 @@ class ProfileController
         $dotenv = Dotenv::createImmutable($dir);
         $dotenv->load();
         $this->views = new Views($_ENV["ROOT"], $dir);
+    }
+
+    #[NoReturn]
+    private function updateProfilePicInfo($fileName)
+    {
+        $fileName = "{home}/static/images/users/" . $fileName;
+        $this->run(["profile_img" => $fileName]);
     }
 
     public function get(): void
@@ -52,6 +60,7 @@ class ProfileController
         return $returns;
     }
 
+    #[NoReturn]
     public static function run(array $data = []): void
     {
         if ($data === []) {
@@ -118,10 +127,50 @@ class ProfileController
                 case "bio":
                     $returns["user_info"]["bio"] = $datum;
                     break;
+                case "profile_img":
+                    $returns["user_info"]["profile_img"] = $datum;
+                    break;
                 default:
                     break;
             }
         }
         return $returns;
+    }
+
+    /**
+     * @throws Exception
+     */
+    #[NoReturn]
+    public function updatePfp(): void
+    {
+        $dir = dirname(__DIR__) . "/";
+        header('Access-Control-Allow-Origin: http://localhost');
+        if (authUtility::issetAndNotEmpty($_FILES['photo'] ?? null)) {
+            $file = $_FILES['photo'];
+            $acceptedFormats = require_once $dir . "app/schema/imgAcceptedFormats.php" ?? [];
+
+            if (!in_array($file["type"], $acceptedFormats)) {
+                authUtility::returnJson(["status" => false, "msg" => "Image is in the wrong format"]);
+            }
+
+            if ($file["error"] > 0) {
+                authUtility::returnJson(["status" => false, "msg" => "An error occurred when uploading the file"]);
+            }
+
+            if ($file["size"] > 5242880) {
+                authUtility::returnJson(["status" => false, "msg" => "Image is too large"]);
+            }
+            $ext = array_slice(explode(".", $file['name']), -1)[0] ?? ".jpg";
+            $fileName = bin2hex(random_bytes(30)) . "." . $ext;
+            $fileName = str_replace("/", "", stripslashes($fileName)); // Sanitise filename (Not entirely useful)
+
+            if (move_uploaded_file($file['tmp_name'], $dir . "static/images/users/" . $fileName)) {
+                self::updateProfilePicInfo($fileName);
+                authUtility::returnJson(["status" => true, "msg" => "Profile picture updated successfully"]);
+            }
+
+            authUtility::returnJson(["status" => false, "msg" => "Unable to move file in server"]);
+        }
+        authUtility::returnJson(["status" => false, "msg" => "Profile picture not found"]);
     }
 }

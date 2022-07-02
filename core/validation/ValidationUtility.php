@@ -33,7 +33,7 @@ class ValidationUtility
         return $returns;
     }
 
-    protected function issetAndNotEmpty(mixed $contents): bool
+    public static function issetAndNotEmpty(mixed $contents): bool
     {
         return isset($contents) && !empty($contents);
     }

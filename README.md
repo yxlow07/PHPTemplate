@@ -11,12 +11,12 @@ PHP Template with advanced features such as user-management system, login logout
 - [x] Login (Backend)
 - [ ] Login (Frontend)
 - [ ] app\router\Router
-- [ ] View renderer
+- [x] View renderer
 - [ ] Admin control panel
-- [ ] Basic login/register features
-- [ ] Content as placeholders
+- [x] Basic login/register features
+- [x] Content as placeholders
 - [ ] Run file for CLI use
-- [ ] Database handling
+- [x] Database handling
 - [ ] Other features to be added
 
 ## Features on suspension (Lack of knowledge / Quality of Life improvements)
@@ -33,6 +33,9 @@ PHP Template with advanced features such as user-management system, login logout
 - [ ] Same page (span -> input) in profile page instead of seperate page [ JS knowledge rip ]
 - [ ] Replacable content with view rendering [ Take too much time ]
 - [ ] Extract messages to another file
+
+## User Preferences
+- [ ] Option to drag profile picture anywhere (Add the #id)
 
 ## Features that look sus
 

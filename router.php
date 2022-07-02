@@ -35,5 +35,5 @@ $router->POST("/login", function () {
 });
 
 $router->POST("/edit_profile", [ProfileController::class, "run"]);
-
+$router->POST("/upload/pfp", [ProfileController::class, "updatePfp"]);
 $router->run();

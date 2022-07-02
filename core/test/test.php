@@ -49,10 +49,13 @@ $dotenv->load();
 //echo $authUtilty->sanitise($password);
 
 # Update document
-$db = new MongoDatabase($_ENV["DB_NAME"], $_ENV["USER_TABLE"]);
-$id = new ObjectId("62a7127a4199b36dd70515e2");
-$result = $db->update(["_id" => $id], ["status" => "online"]);
-echo "Matched count: ";
-var_dump($result->getMatchedCount());
-echo "Modified count: ";
-var_dump($result->getModifiedCount());
+//$db = new MongoDatabase($_ENV["DB_NAME"], $_ENV["USER_TABLE"]);
+//$id = new ObjectId("62a7127a4199b36dd70515e2");
+//$result = $db->update(["_id" => $id], ["status" => "online"]);
+//echo "Matched count: ";
+//var_dump($result->getMatchedCount());
+//echo "Modified count: ";
+//var_dump($result->getModifiedCount());
+
+# Random bytes
+echo bin2hex(random_bytes(30));

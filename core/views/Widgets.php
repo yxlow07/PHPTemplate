@@ -13,7 +13,7 @@ class Widgets
         }
         echo "
         <div class='row'>
-            <div class='col'><b>$title: </b></div>
+            <div class='col' style='user-select: none'><b>$title: </b></div>
             <div class='col'>$contents</div>
         </div><hr>
         ";
@@ -27,7 +27,7 @@ class Widgets
         $id = strtolower(preg_replace("/\s+/", "_", $title));
         echo "
         <div class='row'>
-            <div class='col'>$title:</div>
+            <div class='col' style='user-select: none'>$title:</div>
             <div class='col d-flex justify-content-between'>
                 <input name='$id' value='$contents' class='form-control'>
             </div>
@@ -46,6 +46,32 @@ class Widgets
             }
         }
         return $returns;
+    }
+
+    public static function roundCenterProfilePicHover(string|array $img_source, string $altText, string $classes = "rounded-circle pfp editable-pic"): void
+    {
+        if (is_array($img_source)) {
+            $img_source = implode(self::checkValue($img_source));
+        }
+        if ($img_source === "") {
+            $img_source = "https://i.pinimg.com/736x/c9/e3/e8/c9e3e810a8066b885ca4e882460785fa.jpg";
+        }
+        echo "
+        <div class=\"d-flex justify-content-center\">
+            <div class=\"rounded-circle pfp camera\" id=\"\" draggable='true' data-bs-toggle=\"modal\" data-bs-target=\"#pfp\">
+                <img
+                        src=\"$img_source\"
+                        alt=\"$altText\"
+                        class=\"$classes\"
+                >
+                <div class=\"cam-content rounded-circle\">
+                    <span class=\"icon-wrapper rounded-circle\">
+                        <i class=\"fa-solid fa-camera\"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+        ";
     }
 
     public static function roundCenterProfilePic(string|array $img_source, string $altText, string $classes = "rounded-circle pfp"): void

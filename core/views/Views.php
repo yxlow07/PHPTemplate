@@ -16,6 +16,7 @@ class Views
 
     public function throwError(int $statusCode = 500): string
     {
+        header("HTTP/1.0 404 Not Found");
         $err_dir = $this->root_dir . "errors\\";
         $file_contents = file_get_contents($err_dir . "$statusCode.php") ?? false;
         if (!$file_contents) {
