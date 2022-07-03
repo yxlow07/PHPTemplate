@@ -77,6 +77,7 @@ class LoginController extends authUtility
             $this->updateSession((array)$result);
             authUtility::returnJson(["status" => true]);
         }
+        // TODO: remove on production
         authUtility::returnJson(["status" => false, "message" => "Password is wrong", "debug" => $result]);
     }
 

@@ -17,21 +17,22 @@ $router = new Router($_ENV["ROOT"], $dir);
 
 $router->GET("/", "home");
 $router->GET("/home", "home");
-$router->GET("/register", "register", ["layout" => "auth"]);
-$router->GET("/login", "login", ["layout" => "auth"]);
+$router->GET("/register", "register", /*["layout" => "auth"]*/);
+$router->GET("/login", "login", /*["layout" => "auth"]*/);
 $router->GET("/logout", [LoginController::class, "logout"]);
 $router->GET("/profile", [ProfileController::class, "get"]);
 $router->GET("/edit_profile", [ProfileController::class, "edit"]);
 
 $router->POST("/register", function () {
     $regController = new RegisterController(__DIR__);
-    $regController->run($_POST);
+    $regController->setDb($_SERVER["DB_NAME"], $_ENV["USER_TABLE"]);
+    $regController->run((array)json_decode($_POST["register"]) ?? []);
 });
 
 $router->POST("/login", function () {
     $loginController = new LoginController();
     $loginController->setDb($_SERVER["DB_NAME"], $_ENV["USER_TABLE"]);
-    $loginController->run($_POST);
+    $loginController->run((array)json_decode($_POST["login"]) ?? []);
 });
 
 $router->POST("/edit_profile", [ProfileController::class, "run"]);

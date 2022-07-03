@@ -19,6 +19,7 @@ class RegisterController extends authUtility
     ];
     const pwd_flags = ["notEmpty", ["length"]];
     const supported_validation_types = ["email", "username", "pwd"];
+    private MongoDatabase $db;
 
     public function __construct(
         public string $dir
@@ -55,7 +56,6 @@ class RegisterController extends authUtility
     public function run(array $data, array $validate_options = []): void
     {
         $this->setDefaultValues($this->dir, "register_defaults.php");
-        $this->setDb($_ENV["DB_NAME"], $_ENV["USER_TABLE"]);
         if (isset($data['reg'])) {
             $this->validate($data, $validate_options);
         }

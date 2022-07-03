@@ -1,3 +1,6 @@
+<div class="row d-flex justify-content-center" id="errors">
+
+</div>
 <div class="text-center">
     <h1 class="fw-bolder">Register</h1>
     <p class="form-text">Make your own account today</p>
@@ -5,7 +8,7 @@
 <div class="row">
     <div class="col"></div>
     <div class="col">
-        <form action="register" method="post">
+        <form action="register" method="post" id="reg">
             <div class="mb-3">
                 <label for="email" class="form-label">Email address</label>
                 <input type="text" class="form-control" name="email" id="email">
@@ -35,3 +38,8 @@
     <div class="col"></div>
 </div>
 <script>document.title = "Register"</script>
+<?php
+
+use app\views\Widgets;
+
+Widgets::js_script("{home}/static/js/auth.js");
