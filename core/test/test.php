@@ -32,7 +32,8 @@
 
 use app\db\MongoDatabase;
 use Dotenv\Dotenv;
-use MongoDB\BSON\ObjectId;
+use MongoDB\BSON\Regex;
+
 
 require_once "../../vendor/autoload.php";
 $dotenv = Dotenv::createImmutable(dirname(__DIR__, 2));
@@ -58,4 +59,41 @@ $dotenv->load();
 //var_dump($result->getModifiedCount());
 
 # Random bytes
-echo bin2hex(random_bytes(30));
+//echo bin2hex(random_bytes(30));
+
+# Insert items
+$items = [
+    "series_name" => "Seirei Gensouki",
+    "book_name" => "The Dragon's Familiar",
+    "volume" => 21,
+    "author" => "Kitayama Yuri",
+    "publisher" => "HJ Bunko by Japan",
+    "price" => "781yen",
+    "synopsis" => "",
+    "illustrations" => [
+
+    ],
+    "star_rating" => random_int(1, 5),
+    "publication_date" => new \MongoDB\BSON\UTCDateTime(strtotime('now') * 1000),
+    "language" => "Japanese",
+    "genres" => "adventure//romance//isekai//supernatural"
+];
+
+$str = "seire";
+$regex = new Regex(".*$str.*", 'i');
+$db = new MongoDatabase($_ENV["DB_NAME"], "shop");
+
+
+$result = $db->find([
+    [/*"series_name" => $regex*/],
+    [
+        'limit' => 21,
+        'sort' => ['index' => -1]
+    ]
+], false);
+
+//print_r($db->getItemCount());
+foreach ($result as $item) {
+    print_r($item['volume'] . " " . $item['book_name']);
+    echo "\n";
+}

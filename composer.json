@@ -16,6 +16,8 @@
     "require": {
       "mongodb/mongodb": "^1.12",
       "ext-curl": "*",
-      "vlucas/phpdotenv": "^5.4"
+      "vlucas/phpdotenv": "^5.4",
+      "ext-mongodb": "*",
+      "ext-mongo": "*"
     }
 }

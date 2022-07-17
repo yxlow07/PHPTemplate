@@ -5,6 +5,7 @@ use Dotenv\Dotenv;
 use main\controllers\LoginController;
 use main\controllers\ProfileController;
 use main\controllers\RegisterController;
+use main\controllers\ShopController;
 
 $dir = __DIR__ . "\\";
 
@@ -15,13 +16,14 @@ $dotenv = Dotenv::createImmutable($dir);
 $dotenv->load();
 $router = new Router($_ENV["ROOT"], $dir);
 
-$router->GET("/", "home");
-$router->GET("/home", "home");
+$router->GET("/", "home", ["layout" => "home_layout.php"]);
 $router->GET("/register", "register", /*["layout" => "auth"]*/);
 $router->GET("/login", "login", /*["layout" => "auth"]*/);
 $router->GET("/logout", [LoginController::class, "logout"]);
 $router->GET("/profile", [ProfileController::class, "get"]);
 $router->GET("/edit_profile", [ProfileController::class, "edit"]);
+$router->GET("/shop", [ShopController::class, "get"]);
+$router->GET("/shop/books", [ShopController::class, "getBooks"]);
 
 $router->POST("/register", function () {
     $regController = new RegisterController(__DIR__);

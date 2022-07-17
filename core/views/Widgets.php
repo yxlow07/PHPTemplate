@@ -6,15 +6,15 @@ use app\validation\ValidationUtility;
 
 class Widgets
 {
-    public static function rowWithTwoColumns(string $title, mixed $contents): void
+    public static function rowWithTwoColumns(string $column1, mixed $column2): void
     {
-        if (is_array($contents)) {
-            $contents = implode(self::checkValue($contents));
+        if (is_array($column2)) {
+            $column2 = implode(self::checkValue($column2));
         }
         echo "
         <div class='row'>
-            <div class='col' style='user-select: none'><b>$title: </b></div>
-            <div class='col'>$contents</div>
+            <div class='col' style='user-select: none'><b>$column1: </b></div>
+            <div class='col'>$column2</div>
         </div><hr>
         ";
     }

@@ -5,6 +5,7 @@ use app\validation\ValidationUtility;
 use JetBrains\PhpStorm\NoReturn;
 use MongoDB\Client;
 use MongoDB\Collection;
+use MongoDB\Driver\Cursor;
 use MongoDB\Model\BSONDocument as BSONDoc;
 use MongoDB\UpdateResult;
 
@@ -31,10 +32,10 @@ class MongoDatabase
         return "Database failed";
     }
 
-    public function find(array $data): string|null|BSONDoc
+    public function find(array $data, bool $findOne = true): string|null|BSONDoc|Cursor
     {
         if ($this->validate()) {
-            return $this->collection->findOne($data);
+            return $findOne ? $this->collection->findOne($data) : $this->collection->find(...$data);
         }
         return "Database failed";
     }
@@ -80,5 +81,10 @@ class MongoDatabase
             ValidationUtility::returnJson(["status" => false, "msg" => "Nothing is changed"]);
         }
         ValidationUtility::returnJson(["status" => true, "msg" => "Successfully updated your profile"]);
+    }
+
+    public function getItemCount(): int
+    {
+        return $this->collection->countDocuments();
     }
 }

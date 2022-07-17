@@ -102,7 +102,7 @@ class LoginController extends authUtility
         if (session_status() !== PHP_SESSION_NONE) {
             session_destroy();
         }
-        header("Location: ./home?logout=true");
+        header("Location: ./");
     }
 
     public function setPwdFieldName(string $pwd_field_name): void

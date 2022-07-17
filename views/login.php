@@ -3,7 +3,7 @@
 </div>
 <div class="text-center">
     <h1 class="fw-bolder">Login</h1>
-    <p class="form-text">Sign in to continue</p>
+    <p class="form-text">Sign in to continue or <a href="{home}/register">register</a>!</p>
 </div>
 <div class="row">
     <div class="col"></div>

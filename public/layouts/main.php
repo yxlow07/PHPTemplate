@@ -10,14 +10,14 @@
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
     <link rel="stylesheet" href="{home}/static/css/main.css">
+    <script src="{home}/static/js/mixitup.js"></script>
+    <link rel="stylesheet" href="{home}/static/css/shop.css?id=<?= bin2hex(random_bytes(10)) ?>">
 </head>
 <body>
 <nav class="navbar navbar-dark bg-dark navbar-expand-lg">
     <div class="container-fluid text-light">
-        <a class="navbar-brand" href="{home}/">
-            <img src="{home}/static/images/logo.png" width="30" height="30"
-                 class="me-2 d-inline-block align-top rounded-circle" alt="">
-            PROJECT PAPA
+        <a class="navbar-brand link-nav" href="{home}/">
+            PROJECT <br/> PAPA
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -25,31 +25,22 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-
             </ul>
             <div class="d-flex">
-                <a href="{home}/register">
-                    <button class="btn m-sm-1 btn-outline-light">Register <i class="fa-solid fa-address-card"></i>
-                    </button>
-                </a>
-                <a href="{home}/login">
-                    <button class="btn m-sm-1 btn-outline-light">Login <i class="fa-solid fa-right-to-bracket"></i>
-                    </button>
-                </a>
-                <a href="{home}/profile">
-                    <button class="btn m-sm-1 btn-outline-light">Profile <i class="fa-solid fa-circle-user"></i>
-                    </button>
-                </a>
-                <a href="{home}/logout">
-                    <button class="btn m-sm-1 btn-outline-light">Logout <i class="fa-solid fa-right-from-bracket"></i>
-                    </button>
-                </a>
+                <?php if (isset($_SESSION['_id'])) { ?>
+                    <a class="link-nav" href="{home}/profile">PROFILE</a>
+                    <a class="link-nav" href="{home}/shop">SHOP</a>
+                    <a class="link-nav" href="{home}/logout">LOGOUT</a>
+                <?php } else { ?>
+                    <a class="link-nav" href="{home}/login">LOGIN</a>
+                    <a class="link-nav" href="{home}/login">REGISTER</a>
+                <?php } ?>
             </div>
         </div>
     </div>
 </nav>
 <div class="vertical-center horizontal-center">
-    <div class="container py-4">
+    <div class="container">
         {{content}}
     </div>
 </div>

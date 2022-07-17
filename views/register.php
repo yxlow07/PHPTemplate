@@ -3,12 +3,12 @@
 </div>
 <div class="text-center">
     <h1 class="fw-bolder">Register</h1>
-    <p class="form-text">Make your own account today</p>
+    <p class="form-text">Make your own account today or <a href="{home}/login">login</a>?</p>
 </div>
 <div class="row">
     <div class="col"></div>
     <div class="col">
-        <form action="register" method="post" id="reg">
+        <form action="" method="post" id="reg">
             <div class="mb-3">
                 <label for="email" class="form-label">Email address</label>
                 <input type="text" class="form-control" name="email" id="email">

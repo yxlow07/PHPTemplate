@@ -60,12 +60,17 @@ class Views
         return false;
     }
 
-    private function replace(string $file) : string
+    private function replace(string $file): string
     {
         $layout = $this->getLayout($this->layout);
         $view = $this->getView($file);
 
         return str_replace(["{{content}}", "{home}"], [$view, rtrim($this->home, "\\/")], $layout);
+    }
+
+    public function replaceRaw($string): string
+    {
+        return str_replace("{home}", rtrim($this->home, "\\/"), $string);
     }
 
     /**

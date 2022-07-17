@@ -96,9 +96,9 @@ class Router
                 $this->render->render($fn, $options);
             }
             if (is_array($route["fn"])) {
-                $controller = new $fn[0];
+                $controller = new ($fn[0])($this->render);
                 $fn[0] = $controller;
-                return call_user_func_array($fn, $options);
+                return call_user_func($fn, $options);
             }
             if (is_callable($fn)) {
                 return call_user_func_array($fn, $options);
