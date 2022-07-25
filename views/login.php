@@ -26,6 +26,8 @@
                 <div class="col"></div>
             </div>
         </form>
+        <div class="text-center mt-3"><p class="form-text">Reset password <a href="{home}/reset_password">here</a>!</p>
+        </div>
     </div>
     <div class="col"></div>
 </div>

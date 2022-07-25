@@ -36,10 +36,19 @@ class Views
 
     public function render(string $file_name, array $options = []): void
     {
-        if (isset($options["layout"])) {
-            $this->setLayout($options["layout"]);
+        foreach ($options as $key => $option) {
+            $$key = $option;
         }
-        echo $this->replace($file_name);
+
+        if (isset($layout)) {
+            $this->setLayout($layout);
+        }
+
+        echo $this->replace($file_name, $err ?? "", $msg ?? "");
+
+        if (isset($exit) && $exit === true) {
+            exit;
+        }
     }
 
     #[ArrayShape(["pages_location" => "string", "raw_path" => "string"])]
@@ -60,12 +69,25 @@ class Views
         return false;
     }
 
-    private function replace(string $file): string
+    private function replace(string $file, string $err = "", string $msg = ""): string
     {
         $layout = $this->getLayout($this->layout);
         $view = $this->getView($file);
 
-        return str_replace(["{{content}}", "{home}"], [$view, rtrim($this->home, "\\/")], $layout);
+        $home = rtrim($this->home, "\\/");
+        if ($err !== "") {
+            $err = "<div class=\"alert alert-danger d-flex align-items-center justify-content-center form-w500\" role=\"alert\"> <div class=\"d-block\"> <div class=\"text-center\">$err</div> </div></div>";
+        }
+
+        if ($msg !== "") {
+            $msg = "<div class=\"alert alert-success d-flex align-items-center justify-content-center form-w500\" role=\"alert\"> <div class=\"d-block\"> <div class=\"text-center\">$msg</div> </div></div>";
+        }
+
+        return str_replace(
+            ["{{content}}", "{home}", "{{err}}", "{{msg}}"],
+            [$view, $home, $err, $msg],
+            $layout
+        );
     }
 
     public function replaceRaw($string): string

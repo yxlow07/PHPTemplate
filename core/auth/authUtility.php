@@ -5,6 +5,7 @@ namespace app\auth;
 use app\db\MongoDatabase;
 use app\validation\Validation;
 use app\validation\ValidationUtility;
+use JetBrains\PhpStorm\ArrayShape;
 
 abstract class authUtility extends ValidationUtility
 {
@@ -31,11 +32,12 @@ abstract class authUtility extends ValidationUtility
         return addslashes(htmlspecialchars(filter_var($value, FILTER_SANITIZE_EMAIL)));
     }
 
+    #[ArrayShape(["key" => "string", "item" => "string"])]
     protected function e_u(string $item) : array
     {
         $sanitised_item = $this->sanitise($item);
         $key = $this->isEmail($item) ? "email" : "username";
-        return [$key, $sanitised_item];
+        return ["key" => $key, "item" => $sanitised_item];
     }
 
     public static function updateSession(array $data, bool $destroy_session = false): void

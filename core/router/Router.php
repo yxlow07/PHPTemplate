@@ -9,14 +9,14 @@ class Router
 {
     protected array $methods = ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH", "HEAD"];
     protected array $handling = [];
-    public Views $render;
+    public Views $views;
 
     public function __construct(
         public string $home = "http://localhost/",
         public string $dir = ""
     )
     {
-        $this->render = new Views($this->home, $this->dir);
+        $this->views = new Views($this->home, $this->dir);
     }
 
     public function GET(string $route, callable|object|string|array $fn, array $options = []): void
@@ -83,20 +83,21 @@ class Router
         echo $this->handle($data["uri"], $data["method"]);
     }
 
-    private function handle(string $url, string $method): string|null
+    private function handle(string $url, string $method): mixed
     {
         $uri = explode("?", $url)[0];
         $match = $this->match($uri, $method);
+
         if ($match) {
             // TODO: the options idk how do rn
             $route = $this->handling[$uri][$method];
             $fn = $route["fn"];
             $options = $route["options"];
             if (is_string($fn)) {
-                $this->render->render($fn, $options);
+                $this->views->render($fn, $options);
             }
             if (is_array($route["fn"])) {
-                $controller = new ($fn[0])($this->render);
+                $controller = new ($fn[0])($this->views);
                 $fn[0] = $controller;
                 return call_user_func($fn, $options);
             }
@@ -105,6 +106,6 @@ class Router
             }
             return "";
         }
-        return $this->render->throwError(404);
+        return $this->views->throwError(404);
     }
 }

@@ -25,7 +25,7 @@ function success_msg(successMsg = "Success") {
 function parseStatus(statusAndMsg, successMsg) {
     let status = statusAndMsg.status ?? false;
     if (!status) {
-        createError([statusAndMsg.message])
+        createError([statusAndMsg.message ?? statusAndMsg.msg])
     } else {
         success_msg(successMsg)
         setTimeout(() => {
@@ -88,6 +88,72 @@ $("#login").on("submit", function (e) {
     }
 })
 
+$("#resetPassword").on("submit", function (e) {
+    e.preventDefault();
+    $("#errors").empty();
+    messages = []
+
+    let formData = {"e_u": "", "resetPass": true};
+    let data = $(this).serializeArray();
+    let errors = [];
+    let successMsg = "An email have been sent! Please check your email and follow instructions provided there."
+
+    data.forEach(input => {
+        let name = input.name ?? "";
+        let val = input.value ?? "";
+
+        if (name in formData) {
+            formData[name] = val
+        }
+    });
+
+    if (formData.e_u === "") {
+        errors.push("Email / Username cannot be empty");
+    }
+
+    if (errors.length !== 0) {
+        createError(errors);
+    } else {
+        let res = sendData(formData, "resetPassword", "./reset_password", "POST", successMsg);
+    }
+})
+
+$("#resetPassword_").on("submit", function (e) {
+    e.preventDefault();
+    $("#errors").empty();
+    messages = []
+
+    let formData = {"pass": "", "confPass": "", "token": "", "resetPass": true};
+    let data = $(this).serializeArray();
+    let errors = [];
+    let successMsg = "Successfully reseted your password. Redirecting back to login page..."
+
+    data.forEach(input => {
+        let name = input.name ?? "";
+        let val = input.value ?? "";
+
+        if (name in formData) {
+            formData[name] = val
+        }
+    });
+
+    if (formData.pass === "") {
+        errors.push("Password cannot be empty");
+    } else if (formData.confPass === "") {
+        errors.push("Please confirm your password");
+    }
+
+    if (formData.token === "") {
+        errors.push("Your token is not valid, please retry the link from your email or if this still doesn't work please request a new one.");
+    }
+
+    if (errors.length !== 0) {
+        createError(errors);
+    } else {
+        let res = sendData(formData, "resetPassword", "./resetPassword", "POST", successMsg);
+    }
+})
+
 $("#reg").on("submit", function (e) {
     e.preventDefault();
     $("#errors").empty();
@@ -96,6 +162,7 @@ $("#reg").on("submit", function (e) {
     let formData = {"email": "", "username": "", "pwd": "", "pwdConf": "", "reg": true};
     let data = $(this).serializeArray();
     let errors = [];
+    let successMsg = "Register success... Redirecting...";
 
     data.forEach(input => {
         let name = input.name ?? "";
@@ -122,6 +189,6 @@ $("#reg").on("submit", function (e) {
     if (errors.length !== 0) {
         createError(errors);
     } else {
-        let res = sendData(formData, "register", "./register", "POST", "Register success... Redirecting...");
+        let res = sendData(formData, "register", "./register", "POST", successMsg);
     }
 })

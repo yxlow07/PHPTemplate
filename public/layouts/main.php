@@ -33,7 +33,7 @@
                     <a class="link-nav" href="{home}/logout">LOGOUT</a>
                 <?php } else { ?>
                     <a class="link-nav" href="{home}/login">LOGIN</a>
-                    <a class="link-nav" href="{home}/login">REGISTER</a>
+                    <a class="link-nav" href="{home}/register">REGISTER</a>
                 <?php } ?>
             </div>
         </div>

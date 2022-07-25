@@ -33,17 +33,20 @@ class ShopController
         ], false);
 
         $column = 0;
+        $index = 0;
 
         foreach ($result as $item) {
+            $index += 1;
             $genres = implode(" ", explode("//", $item['genres']));
             $name = trim($item["book_name"]);
+            $formattedName = str_replace(" ", "_", $item["book_name"]);
             $img = $item["illustrations"][0] ?? "default.jpg";
 
             if ($column === 0) {
                 $returns .= "<div class=\"productRow\">"; // Start of a row aka the first of three products
             }
 
-            $returns .= "<article class=\"mix productInfo $genres\"> <div><img alt=\"sample\" src=\"{home}/static/images/books/$img\"></div> <p class=\"price\">$name</p> <input class=\"buyButton\" name=\"button\" type=\"button\" value=\"Buy\"></article>";
+            $returns .= "<article class=\"mix productInfo $genres\" id='$index'> <div><img alt=\"sample\" src=\"{home}/static/images/books/$img\"></div> <p class=\"price\">$name</p> <input class=\"buyButton\" name=\"button\" type=\"button\" value=\"Buy\"></article>";
 
             if ($column === 2) {
                 $returns .= "</div>"; // Put at the end to close off after third product of the row and ensure items get echoed

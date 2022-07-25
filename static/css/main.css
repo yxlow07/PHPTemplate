@@ -50,7 +50,6 @@ label {
     min-height: 80vh; /* These two lines are counted as one :-)       */
     display: flex;
     align-items: center;
-
 }
 
 .pfp {

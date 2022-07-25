@@ -1,6 +1,7 @@
 <?php
 
 use app\router\Router;
+use app\views\Views;
 use Dotenv\Dotenv;
 use main\controllers\LoginController;
 use main\controllers\ProfileController;
@@ -17,8 +18,10 @@ $dotenv->load();
 $router = new Router($_ENV["ROOT"], $dir);
 
 $router->GET("/", "home", ["layout" => "home_layout.php"]);
-$router->GET("/register", "register", /*["layout" => "auth"]*/);
-$router->GET("/login", "login", /*["layout" => "auth"]*/);
+$router->GET("/register", "register");
+$router->GET("/login", "login");
+$router->GET("/reset_password", [LoginController::class, "resetPasswordGet"]);
+$router->GET("/resetPassword", [LoginController::class, "findToken"]);
 $router->GET("/logout", [LoginController::class, "logout"]);
 $router->GET("/profile", [ProfileController::class, "get"]);
 $router->GET("/edit_profile", [ProfileController::class, "edit"]);
@@ -32,11 +35,13 @@ $router->POST("/register", function () {
 });
 
 $router->POST("/login", function () {
-    $loginController = new LoginController();
+    $loginController = new LoginController(new Views());
     $loginController->setDb($_SERVER["DB_NAME"], $_ENV["USER_TABLE"]);
     $loginController->run((array)json_decode($_POST["login"]) ?? []);
 });
 
 $router->POST("/edit_profile", [ProfileController::class, "run"]);
 $router->POST("/upload/pfp", [ProfileController::class, "updatePfp"]);
+$router->POST("/reset_password", [LoginController::class, "resetPasswordPost"]);
+$router->POST("/resetPassword", [LoginController::class, "resetPasswordResetPost"]);
 $router->run();

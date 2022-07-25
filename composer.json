@@ -17,7 +17,9 @@
       "mongodb/mongodb": "^1.12",
       "ext-curl": "*",
       "vlucas/phpdotenv": "^5.4",
-      "ext-mongodb": "*",
-      "ext-mongo": "*"
+      "symfony/mailer": "^6.1",
+      "symfony/google-mailer": "^6.1",
+      "symfony/mailjet-mailer": "^6.1",
+      "ext-mongodb": "*"
     }
 }

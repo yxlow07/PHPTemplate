@@ -1,4 +1,5 @@
 <?php
+namespace App\Controller;
 //$obj = json_decode('{"email":"vodresurti@vusra.com","did_you_mean":"","user":"vodresurti","domain":"vusra.com","format_valid":true,"mx_found":true,"smtp_check":true,"catch_all":false,"role":false,"disposable":false,"free":false,"score":0.8}');",
 //echo $obj->disposable == false ? "false" : "true";
 //$arr = [false, true, false];
@@ -32,7 +33,8 @@
 
 use app\db\MongoDatabase;
 use Dotenv\Dotenv;
-use MongoDB\BSON\Regex;
+use MongoDB\BSON\ObjectId;
+use MongoDB\BSON\UTCDateTime;
 
 
 require_once "../../vendor/autoload.php";
@@ -61,7 +63,7 @@ $dotenv->load();
 # Random bytes
 //echo bin2hex(random_bytes(30));
 
-# Insert items
+# Insert items -> shop
 $items = [
     "series_name" => "Seirei Gensouki",
     "book_name" => "The Dragon's Familiar",
@@ -79,21 +81,21 @@ $items = [
     "genres" => "adventure//romance//isekai//supernatural"
 ];
 
-$str = "seire";
-$regex = new Regex(".*$str.*", 'i');
-$db = new MongoDatabase($_ENV["DB_NAME"], "shop");
+# Table for reset password tokens
+$db = new MongoDatabase($_ENV["DB_NAME"], "tokens");
+$token = [
+    "token" => bin2hex(random_bytes(60)),
+    "user_id" => new ObjectId("62c1445e7e77e6e1df03f865"),
+    "for" => "testing",
+    "created_at" => new UTCDateTime(strtotime('now') * 1000)
+];
 
+$db->insert($token);
 
-$result = $db->find([
-    [/*"series_name" => $regex*/],
-    [
-        'limit' => 21,
-        'sort' => ['index' => -1]
-    ]
-], false);
-
-//print_r($db->getItemCount());
-foreach ($result as $item) {
-    print_r($item['volume'] . " " . $item['book_name']);
-    echo "\n";
-}
+//$find = $db->find(["token" => "7d1f0a1f31b1ec4ab46825bac56a2e0f035106dcfdae62f0411c3877162a27b18a6a9e1b835be159bce1ae09f5a5abdaf72a6113a723750314db4e4d"]);
+///**
+// * @var $time UTCDateTime
+// */
+//$time = $find["created_at"];
+//
+//print_r(($time->toDateTime()->format("h:i:s A d M Y")));

@@ -57,7 +57,7 @@ class MongoDatabase
         return true;
     }
 
-    protected function checkAvailabilityOfDB($database_name): bool
+    public function checkAvailabilityOfDB($database_name): bool
     {
         $databases = $this->client->listDatabases();
         foreach ($databases as $database) {
@@ -86,5 +86,21 @@ class MongoDatabase
     public function getItemCount(): int
     {
         return $this->collection->countDocuments();
+    }
+
+    /**
+     * @return string
+     */
+    public function getDbName(): string
+    {
+        return $this->db_name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCollectionName(): string
+    {
+        return $this->collection_name;
     }
 }
