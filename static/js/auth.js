@@ -58,6 +58,10 @@ async function sendData(formData, name = "login", fetchLocation = "./login", met
 
 $("#login").on("submit", function (e) {
     e.preventDefault();
+
+    // Disable button
+    disableButton($('[type="submit"]'));
+
     $("#errors").empty();
     messages = []
 
@@ -88,8 +92,18 @@ $("#login").on("submit", function (e) {
     }
 })
 
+function disableButton(button) {
+    button.attr('disabled', 'disabled');
+    button.css('opacity', 0.5);
+    button.text("Please wait a second...");
+}
+
 $("#resetPassword").on("submit", function (e) {
     e.preventDefault();
+
+    // Disable button
+    disableButton($('[type="submit"]'));
+
     $("#errors").empty();
     messages = []
 
@@ -120,6 +134,10 @@ $("#resetPassword").on("submit", function (e) {
 
 $("#resetPassword_").on("submit", function (e) {
     e.preventDefault();
+
+    // Disable button
+    disableButton($('[type="submit"]'));
+
     $("#errors").empty();
     messages = []
 
@@ -156,6 +174,10 @@ $("#resetPassword_").on("submit", function (e) {
 
 $("#reg").on("submit", function (e) {
     e.preventDefault();
+
+    // Disable button
+    disableButton($('[type="submit"]'));
+
     $("#errors").empty();
     messages = []
 
@@ -191,4 +213,8 @@ $("#reg").on("submit", function (e) {
     } else {
         let res = sendData(formData, "register", "./register", "POST", successMsg);
     }
+})
+
+$('[type="submit"]').click(function () {
+
 })

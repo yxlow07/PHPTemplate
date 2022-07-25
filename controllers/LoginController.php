@@ -8,6 +8,7 @@ use app\mail\Mailer;
 use app\validation\Validation;
 use app\views\Views;
 use JetBrains\PhpStorm\NoReturn;
+use MongoDB\BSON\ObjectId;
 use MongoDB\BSON\UTCDateTime;
 
 class LoginController extends authUtility
@@ -83,8 +84,8 @@ class LoginController extends authUtility
             $this->updateSession((array)$result);
             authUtility::returnJson(["status" => true]);
         }
-        // TODO: remove on production
-        authUtility::returnJson(["status" => false, "message" => "Password is wrong", "debug" => $result]);
+
+        authUtility::returnJson(["status" => false, "message" => "Password is wrong"]);
     }
 
     private function sanitiseInput(array $data, array $fields): array
@@ -152,6 +153,7 @@ class LoginController extends authUtility
         return $err === "" ? ['return' => true, 'user_id' => $userID] : ['return' => false, 'msg' => $err];
     }
 
+    #[NoReturn]
     public function resetPasswordResetPost()
     {
         $data = json_decode($_POST['resetPassword'], true) ?? [];
@@ -184,6 +186,8 @@ class LoginController extends authUtility
         );
 
         if ($result->isAcknowledged() && $result->getModifiedCount() === 1) {
+            $this->setDb($_ENV['DB_NAME'], "tokens");
+            $this->db->delete(['token' => $data['token']]);
             self::returnJson(["status" => true, "msg" => "Success!"]);
         }
         self::returnJson(["status" => false, "msg" => "Something went wrong with the server!"]);
@@ -200,23 +204,36 @@ class LoginController extends authUtility
             self::returnJson(["status" => false, "msg" => "Email / Username not found"]);
         }
 
-        $this->handleMsg($res["_id"], $res["email"]);
+        $reset_id = bin2hex(random_bytes(60));
+
+        $this->handleMsg($reset_id, $res["email"], $res['_id']);
     }
 
-    private function handleMsg(string $reset_id, string $email)
+    #[NoReturn]
+    public function handleMsg(string $reset_id, string $email, string $userID)
     {
+        $this->setDb($_ENV['DB_NAME'], 'tokens');
+        $this->db->insert(
+            [
+                "token" => $reset_id,
+                "user_id" => new ObjectId($userID),
+                "for" => "resetPassword",
+                "created_at" => new UTCDateTime(strtotime('now') * 1000)
+            ]
+        );
+
         $link = "http://localhost/ProjectPapa/resetPassword?reset_id=" . $reset_id;
         $text = "Please reset your password with this link. \n\n $link \n\n Not You? Ignore this email or send a feedback to us";
         $html = $this->generateEmailHTML("Reset Password", $link);
         $mail = new Mailer($_ENV["MAILER_DSN"]);
-        // TODO: add to token db
+
         $result = $mail->sendMail($_ENV["MAIL_FROM"], $email, "Reset Password", $text, $html);
         self::returnJson($result);
     }
 
     private function generateEmailHTML($title, $link = "http://localhost/"): string
     {
-        $styles = "<style>@import url(https://fonts.googleapis.com/css2?family=Libre+Baskerville&display=swap);.container{margin-left:auto;margin-right:auto;max-width:80vw}.title{font-weight:900;font-size:2rem;text-decoration:dotted underline #41c9ff;color:#376fff;margin-bottom:30px}.text{font-family:\"Libre Baskerville\",\"Palatino Linotype\",Palatino,\"Century Schoolbook L\",\"Times New Roman\",serif}a{text-decoration:none;color:#00bfff}a:hover{text-decoration:underline deepskyblue}</style>";
+        $styles = "<style>@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville&display=swap');.container{margin-left:auto;margin-right:auto;max-width:80vw}.title{font-weight:900;font-size:2rem;text-decoration:dotted underline #41c9ff;color:#376fff;margin-bottom:30px}.text{font-family:\"Libre Baskerville\",\"Palatino Linotype\",Palatino,\"Century Schoolbook L\",\"Times New Roman\",serif}a{text-decoration:none;color:#00bfff}a:hover{text-decoration:underline deepskyblue}</style>";
         return "<!doctype html><html lang=\"en\"><head> <meta charset=\"UTF-8\"> <meta name=\"viewport\" content=\"width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0\"> <meta http-equiv=\"X-UA-Compatible\" content=\"ie=edge\"> <title>$title</title>$styles</head><body> <div class=\"container\"> <div class=\"title\">$title</div><div class=\"text\"> If you have not requested to change your password for your account on ProjectPapa, please ignore this email or you can email us regarding this issue. <br/> <br>If you have requested to change your password, please click on this link to reset your password. <br><br><a href=\"$link\" target=\"_blank\">$link</a> </div></div></body></html>";
     }
 }

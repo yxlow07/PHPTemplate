@@ -5,6 +5,7 @@ use app\validation\ValidationUtility;
 use JetBrains\PhpStorm\NoReturn;
 use MongoDB\Client;
 use MongoDB\Collection;
+use MongoDB\DeleteResult;
 use MongoDB\Driver\Cursor;
 use MongoDB\Model\BSONDocument as BSONDoc;
 use MongoDB\UpdateResult;
@@ -46,6 +47,11 @@ class MongoDatabase
             $find,
             ['$set' => $data]
         );
+    }
+
+    public function delete(array $find): DeleteResult
+    {
+        return $this->collection->deleteOne($find);
     }
 
     protected function validate(): bool

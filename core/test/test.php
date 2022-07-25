@@ -99,3 +99,8 @@ $db->insert($token);
 //$time = $find["created_at"];
 //
 //print_r(($time->toDateTime()->format("h:i:s A d M Y")));
+
+//$newdb = new MongoDatabase($_ENV["DB_NAME"], "users");
+//$res = $newdb->find(['status' => 'online']);
+//$lc = new LoginController(new Views());
+//$lc->handleMsg("hello", "mhmm", $res['_id']);
