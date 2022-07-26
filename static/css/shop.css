@@ -176,11 +176,8 @@ header {
     font-style: normal;
     font-weight: 200;
     line-height: 1.8;
-    padding-top: 22px;
-    padding-left: 22px;
     text-align: center;
-    padding-bottom: 22px;
-    padding-right: 22px;
+    padding: 22px;
 }
 
 /*Each footer content */
@@ -252,7 +249,7 @@ footer .footerlinks {
         height: auto;
         overflow: auto;
         padding-left: 12%;
-        padding-top: 0px;
+        padding-top: 0;
     }
 
     /* horizontal separators in sidebar */
@@ -284,7 +281,7 @@ footer .footerlinks {
     #menubar .menu ul li {
         display: inline;
         font-size: medium;
-        padding-left: 0%;
+        padding-left: 0;
         padding-right: 3%;
     }
 
@@ -307,7 +304,7 @@ footer .footerlinks {
         left: -7%;
         overflow: hidden;
         width: 95%;
-        padding-top: 0px;
+        padding-top: 0;
     }
 
     /* offer banners content */
@@ -345,7 +342,7 @@ footer .footerlinks {
         top: 17px;
         clear: both;
         text-align: center;
-        left: 0%;
+        left: 0;
         padding-bottom: 19px;
     }
 
@@ -358,8 +355,8 @@ footer .footerlinks {
 
     /* Links in footer */
     .footerlinks p a {
-        padding-top: 0px;
-        padding-bottom: 0px;
+        padding-top: 0;
+        padding-bottom: 0;
         display: inline;
         padding-right: 35px;
     }
@@ -372,7 +369,7 @@ footer .footerlinks {
 
     /* Links in header */
     header #headerLinks a {
-        padding-left: 0px;
+        padding-left: 0;
         padding-right: 30px;
     }
 
@@ -407,12 +404,12 @@ footer .footerlinks {
     header #headerLinks a {
         text-align: center;
         padding-right: 15px;
-        padding-left: 0px;
+        padding-left: 0;
     }
 
     /*Offer - Text Banner */
     #mainWrapper #offer {
-        padding-left: 0px;
+        padding-left: 0;
         text-align: center;
     }
 
@@ -433,8 +430,8 @@ footer .footerlinks {
     .mainContent .productRow .productInfo {
         width: 100%;
         display: block;
-        padding-left: 0px;
-        padding-right: 0px;
+        padding-left: 0;
+        padding-right: 0;
         position: relative;
         left: -2%;
     }
@@ -463,7 +460,7 @@ footer .footerlinks {
         margin-top: -81px;
         text-align: center;
         width: 100%;
-        padding-left: 0px;
+        padding-left: 0;
     }
 }
 
@@ -474,4 +471,30 @@ footer .footerlinks {
 
 .price {
     font-size: 14px !important;
+    height: 38px;
+    overflow: hidden;
+}
+
+.key {
+    font-weight: 900;
+    color: lightgoldenrodyellow;
+    font-style: oblique;
+    margin-right: 5px;
+}
+
+.modal-title {
+    font-weight: 900;
+    color: deepskyblue;
+}
+
+.genres {
+    text-transform: capitalize;
+}
+
+.modal-body > img {
+    width: 80%;
+}
+
+.item, .synopsis {
+    text-align: left;
 }

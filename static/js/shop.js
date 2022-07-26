@@ -19,7 +19,7 @@ $("a.control").on('click', (event) => {
 
 $(document).ready(() => {
     let container = $(".mainContent");
-    // getBooks(container);
+    getBooks(container);
 
     setTimeout(() => {
         let containerEl = document.querySelector('.mainContent');
@@ -29,5 +29,6 @@ $(document).ready(() => {
                 animateResizeContainer: false // required to prevent column algorithm bug
             }
         });
-    }, 2000)
+    }, 0) // TODO: add realistic waiting effect, 1500ms on production
+    // Not sure whether is this a good decision, gotta consult ltr
 });

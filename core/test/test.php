@@ -32,7 +32,9 @@ namespace App\Controller;
 //}
 
 use app\db\MongoDatabase;
+use app\views\Views;
 use Dotenv\Dotenv;
+use main\controllers\ShopController;
 use MongoDB\BSON\ObjectId;
 use MongoDB\BSON\UTCDateTime;
 
@@ -90,17 +92,20 @@ $token = [
     "created_at" => new UTCDateTime(strtotime('now') * 1000)
 ];
 
-$db->insert($token);
-
-//$find = $db->find(["token" => "7d1f0a1f31b1ec4ab46825bac56a2e0f035106dcfdae62f0411c3877162a27b18a6a9e1b835be159bce1ae09f5a5abdaf72a6113a723750314db4e4d"]);
+//$db->insert($token);
+//
+//$find = $db->find([]);
 ///**
 // * @var $time UTCDateTime
 // */
 //$time = $find["created_at"];
-//
+
 //print_r(($time->toDateTime()->format("h:i:s A d M Y")));
 
 //$newdb = new MongoDatabase($_ENV["DB_NAME"], "users");
 //$res = $newdb->find(['status' => 'online']);
 //$lc = new LoginController(new Views());
 //$lc->handleMsg("hello", "mhmm", $res['_id']);
+
+$shopC = new ShopController(new Views());
+echo $shopC->generateImagesTemplate(['1.webp', '2.webp']);
