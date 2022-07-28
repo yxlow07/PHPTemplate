@@ -1,26 +1,30 @@
+<div class="search-bar">
+    <input type="text" class="form-control" placeholder="Search here...." id="searchShop">
+</div>
 <div id="mainWrapper">
     <div id="content">
         <section class="sidebar">
             <div id="menubar">
                 <nav class="menu">
                     <ul>
-                        <li><a href="" class="control" data-filter=".fantasy">FANTASY</a></li>
-                        <li><a href="" class="control" data-filter=".sci-fi">SCI-FI</a></li>
-                        <li><a href="" class="control" data-filter=".romance">ROMANCE</a></li>
-                        <li><a href="" class="control" data-filter=".thriller">THRILLER</a></li>
-                        <li><a href="" class="control" data-filter=".horror">HORROR</a></li>
-                        <li><a href="" class="control" data-filter=".historical">HISTORICAL</a></li>
-                        <li><a href="" class="control" data-filter=".mystery">MYSTERY</a></li>
-                        <li><a href="" class="control" data-filter=".dystoaian">DYSTOPIAN</a></li>
-                        <li><a href="" class="control" data-filter=".new-adult">NEW ADULT</a></li>
-                        <li><a href="" class="control" data-filter=".non-fiction">NON-FICTION</a></li>
-                        <li><a href="" class="control" data-filter=".isekai">ISEKAI</a></li>
-                        <li><a href="" class="control" data-filter=".supernatural">SUPERNATURAL</a></li>
-                        <li><a href="" class="control" data-filter=".drama">DRAMA</a></li>
-                        <li><a href="" class="control" data-filter=".slice-of-life">SLICE OF LIFE</a></li>
-                        <li><a href="" class="control" data-filter=".shoujo">SHOUJO</a></li>
-                        <li><a href="" class="control" data-filter=".action">ACTION</a></li>
-                        <li><a href="" class="control" data-filter=".ecchi">ECCHI</a></li>
+                        <li><a href="" class="control" data-filter=".fantasy">fantasy</a></li>
+                        <li><a href="" class="control" data-filter=".sci-fi">sci-fi</a></li>
+                        <li><a href="" class="control" data-filter=".romance">romance</a></li>
+                        <li><a href="" class="control" data-filter=".thriller">thriller</a></li>
+                        <li><a href="" class="control" data-filter=".horror">horror</a></li>
+                        <li><a href="" class="control" data-filter=".historical">historical</a></li>
+                        <li><a href="" class="control" data-filter=".mystery">mystery</a></li>
+                        <li><a href="" class="control" data-filter=".dystoaian">dystopian</a></li>
+                        <li><a href="" class="control" data-filter=".new-adult">new adult</a></li>
+                        <li><a href="" class="control" data-filter=".non-fiction">non-fiction</a></li>
+                        <li><a href="" class="control" data-filter=".isekai">isekai</a></li>
+                        <li><a href="" class="control" data-filter=".supernatural">supernatural</a></li>
+                        <li><a href="" class="control" data-filter=".drama">drama</a></li>
+                        <li><a href="" class="control" data-filter=".slice-of-life">slice of life</a></li>
+                        <li><a href="" class="control" data-filter=".shoujo">shoujo</a></li>
+                        <li><a href="" class="control" data-filter=".action">action</a></li>
+                        <li><a href="" class="control" data-filter=".ecchi">ecchi</a></li>
+                        <li><a href="" class="control" data-filter=".adventure">adventure</a></li>
                     </ul>
                 </nav>
             </div>
@@ -32,5 +36,5 @@
 </div>
 
 <?php
-\app\views\Widgets::js_script("{home}/static/js/shop.js");
+\app\views\Widgets::js_script("{home}/static/js/shop.js", true);
 ?>

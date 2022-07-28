@@ -36,6 +36,7 @@ use app\views\Views;
 use Dotenv\Dotenv;
 use main\controllers\ShopController;
 use MongoDB\BSON\ObjectId;
+use MongoDB\BSON\Regex;
 use MongoDB\BSON\UTCDateTime;
 
 
@@ -84,7 +85,7 @@ $items = [
 ];
 
 # Table for reset password tokens
-$db = new MongoDatabase($_ENV["DB_NAME"], "tokens");
+$db = new MongoDatabase($_ENV["DB_NAME"], "shop");
 $token = [
     "token" => bin2hex(random_bytes(60)),
     "user_id" => new ObjectId("62c1445e7e77e6e1df03f865"),
@@ -108,4 +109,10 @@ $token = [
 //$lc->handleMsg("hello", "mhmm", $res['_id']);
 
 $shopC = new ShopController(new Views());
-echo $shopC->generateImagesTemplate(['1.webp', '2.webp']);
+//echo $shopC->generateImagesTemplate(['1.webp', '2.webp']);
+$getBooks = $shopC->getBooksFromDB(['book_name' => new Regex(".*king.*", 'i')]);
+$count = 0;
+foreach ($getBooks as $item) {
+    $count += 1;
+}
+echo $count;

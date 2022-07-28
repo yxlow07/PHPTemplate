@@ -85,8 +85,9 @@ class Widgets
         echo "<div class='d-flex justify-content-center'><img src='$img_source' alt='$altText' class='$classes'></div>";
     }
 
-    public static function js_script(string $link): void
+    public static function js_script(string $link, bool $refreshOnReload = false): void
     {
+        $link = $refreshOnReload ? $link . "?id=" . bin2hex(random_bytes(3)) : $link;
         echo "<script src='$link'></script>";
     }
 

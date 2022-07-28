@@ -5,6 +5,10 @@
 }
 
 /* Global Styles */
+.control {
+    text-transform: uppercase;
+}
+
 .control:hover {
     color: rgba(255, 255, 255, 1.00);
 }
@@ -250,6 +254,7 @@ footer .footerlinks {
         overflow: auto;
         padding-left: 12%;
         padding-top: 0;
+        margin-top: 30px;
     }
 
     /* horizontal separators in sidebar */
@@ -497,4 +502,16 @@ footer .footerlinks {
 
 .item, .synopsis {
     text-align: left;
+}
+
+.search-bar {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px;
+}
+
+.search-bar > input:focus {
+    box-shadow: none;
+    border: #86b7fe 3px solid;
 }

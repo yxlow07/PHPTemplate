@@ -4,6 +4,7 @@ namespace main\controllers;
 
 use app\db\MongoDatabase;
 use app\views\Views;
+use MongoDB\BSON\Regex;
 use MongoDB\Driver\Cursor;
 use MongoDB\Model\BSONDocument;
 
@@ -23,10 +24,10 @@ class ShopController
         $this->views->render("shop", ["layout" => "main"]);
     }
 
-    public function getBooks(): void
+    public function getBooks(array $options, array $search = []): bool|string
     {
         $returns = "";
-        $result = $this->getBooksFromDB();
+        $result = $this->getBooksFromDB($search);
         $column = 0;
         $index = 0;
         $def = "Not specified";
@@ -47,8 +48,7 @@ class ShopController
             $author = $item['author'] ?? $def;
             $synopsis = $item['synopsis'] ?? $def;
             $images = self::generateImagesTemplate(iterator_to_array($item['illustrations']) ?? ['default.jpg']);
-            $genres = ucwords($genres);
-            $templateOfModal = "<div class=\"modal fade\" id=\"$formattedName\" data-bs-backdrop=\"static\" data-bs-keyboard=\"false\" tabindex=\"-1\" aria-labelledby=\"staticBackdropLabel\" aria-hidden=\"true\"> <div class=\"modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl text-left\"> <div class=\"modal-content bg-dark text-white\"> <div class=\"modal-header\"> <h5 class=\"modal-title\" id=\"staticBackdropLabel\">$name</h5> <button type=\"button\" class=\"btn-close btn-close-white\" data-bs-dismiss=\"modal\" aria-label=\"Close\"></button> </div> <div class=\"modal-body\"> $seriesName $volume <p class=\"item\"><span class=\"key\">Author:</span>$author</p> <p class=\"item\"><span class=\"key\">Publisher:</span>$publisher</p> <p class=\"item\"><span class=\"key\">Price:</span>$price</p> <p class=\"item\"><span class=\"key\">Publication Date:</span>$publicationDate</p> <p class=\"item\"><span class=\"key\">Genres:</span><span class='genres'>$genres</span></p> <p class=\"item\"><span class=\"key\">Star rating:</span>$stars</p> <p class=\"item\"><span class=\"key synopsis-key\">Synopsis:</span></p> <p class=\"synopsis\">$synopsis</p> <p class=\"item\"><span class=\"key\">Illustrations: </span></p> <div class=\"horizontal-center\">$images</div> </div> <div class=\"modal-footer\"> <button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\">Close</button> </div> </div> </div> </div>";
+            $templateOfModal = "<div class=\"modal fade\" id=\"$formattedName\" data-bs-backdrop=\"static\" data-bs-keyboard=\"false\" tabindex=\"-1\" aria-labelledby=\"staticBackdropLabel\" aria-hidden=\"true\"> <div class=\"modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl text-left\"> <div class=\"modal-content bg-dark text-white\"> <div class=\"modal-header\"> <h5 class=\"modal-title\" id=\"staticBackdropLabel\">$name</h5> <button type=\"button\" class=\"btn-close btn-close-white\" data-bs-dismiss=\"modal\" aria-label=\"Close\"></button> </div> <div class=\"modal-body\"> $seriesName $volume <p class=\"item\"><span class=\"key\">Author:</span>$author</p> <p class=\"item\"><span class=\"key\">Publisher:</span>$publisher</p> <p class=\"item\"><span class=\"key\">Price:</span>$price</p> <p class=\"item\"><span class=\"key\">Publication Date:</span>$publicationDate</p> <p class=\"item\"><span class=\"key\">Genres:</span><span class='genres'> " . ucwords($genres) . "</span></p> <p class=\"item\"><span class=\"key\">Star rating:</span>$stars</p> <p class=\"item\"><span class=\"key synopsis-key\">Synopsis:</span></p> <p class=\"synopsis\">$synopsis</p> <p class=\"item\"><span class=\"key\">Illustrations: </span></p> <div class=\"horizontal-center\">$images</div> </div> <div class=\"modal-footer\"> <button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\">Close</button> </div> </div> </div> </div>";
             echo $this->views->replaceRaw($templateOfModal);
 
             if ($column === 0) {
@@ -65,12 +65,12 @@ class ShopController
             $column += 1;
         }
 
-        echo $this->views->replaceRaw($returns);
+        return $this->views->replaceRaw($returns);
     }
 
-    public function getBooksFromDB($find = []): BSONDocument|Cursor|string|null
+    public function getBooksFromDB($find = [], $limit = 21): BSONDocument|Cursor|string|null
     {
-        return $this->db->find([$find, ['limit' => 21, 'sort' => ['index' => -1]]], false);
+        return $this->db->find([$find, ['limit' => $limit, 'sort' => ['index' => -1]]], false);
     }
 
     public static function itemTemplate(string $key, mixed $item): string
@@ -102,5 +102,19 @@ class ShopController
             $returns .= str_replace("{{imageName}}", $image, $template);
         }
         return $returns;
+    }
+
+    public function findBooks(): void
+    {
+        $searchStr = json_decode($_POST['data']);
+        $pattern = ".*" . $searchStr . ".*";
+        $regexSearchStr = new Regex($pattern, 'i');
+        $result = $this->getBooks([], ['book_name' => $regexSearchStr]);
+
+        if (empty($result)) {
+            echo "Nothing is found :'( <br/> Try something else?";
+        } else {
+            echo $result;
+        }
     }
 }

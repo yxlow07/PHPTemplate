@@ -44,4 +44,5 @@ $router->POST("/edit_profile", [ProfileController::class, "run"]);
 $router->POST("/upload/pfp", [ProfileController::class, "updatePfp"]);
 $router->POST("/reset_password", [LoginController::class, "resetPasswordPost"]);
 $router->POST("/resetPassword", [LoginController::class, "resetPasswordResetPost"]);
+$router->POST("/shop/search", [ShopController::class, "findBooks"]);
 $router->run();
